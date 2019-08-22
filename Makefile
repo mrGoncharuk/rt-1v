@@ -6,7 +6,7 @@
 #    By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/15 19:28:21 by mhonchar          #+#    #+#              #
-#    Updated: 2019/08/21 16:54:14 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/08/22 20:49:30 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC_FILES =		main.c \
 				tb_toolbox.c \
 				rt_main.c \
 				rt_color.c \
+				rt_light.c \
 				rt_sphere.c
 
 				
