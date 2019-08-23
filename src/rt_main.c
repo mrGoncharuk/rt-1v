@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:24:31 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/22 22:30:48 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/23 17:06:15 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,28 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 	(void)fname;
 	*objs = (t_objects *)malloc(sizeof(t_objects));
 	o = *objs;
+
 	o->type = OBJ_SPHERE;
 	o->centre = (t_vec) {0, -1, 3};
 	o->radius = 1;
-	o->color = (t_channel) {255, 0, 0};
+	o->color = (t_channel) {200, 200, 200};
+	o->specular = 500;
 	o->next = (t_objects *)malloc(sizeof(t_objects));
+	
 	o = o->next;
 	o->type = OBJ_SPHERE;
-	o->centre = (t_vec) {1.4, 0, 4};
+	o->centre = (t_vec) {-2, 1, 3};
 	o->radius = 1;
+	o->color = (t_channel) {0, 255, 0};
+	o->specular = 10;
+	o->next = (t_objects *)malloc(sizeof(t_objects));
+
+	o = o->next;
+	o->type = OBJ_SPHERE;
 	o->color = (t_channel) {255, 255, 0};
+	o->centre = (t_vec) {0, -5001, 0};
+	o->radius = 5000;
+	o->specular = 1000;
 	o->next = NULL;
 }
 
@@ -129,9 +141,11 @@ t_channel	rt_trace_ray(t_ray ray, t_objects *objs, t_lights *lights, double *dis
 {
 	t_intersect	inter;
 	double		i;
+	t_objects	*objs_head;
 
 	inter.closest_obj = NULL;
 	inter.dist = DBL_MAX;
+	objs_head = objs;
 	while(objs)
 	{
 		rt_intersect_ray(ray, objs, &inter, dist_range);
@@ -141,7 +155,7 @@ t_channel	rt_trace_ray(t_ray ray, t_objects *objs, t_lights *lights, double *dis
 		return ((t_channel) {255, 255, 255});
 	inter.hit = ray.origin + inter.dist * ray.direction;
 	inter.normal = rt_calc_normal(&inter);
-	i = rt_compute_lighting(lights, inter.hit, inter.normal);
+	i = rt_compute_lighting(objs_head, lights, ray, &inter);
 	return (rt_enlightenment(inter.closest_obj->color, i));
 }
 
@@ -150,7 +164,7 @@ t_channel	rt_trace_ray(t_ray ray, t_objects *objs, t_lights *lights, double *dis
 void	rt_mainloop(t_rt *rt, t_canvas *cn)
 {
 	t_ray		ray;
-	t_channel		color;
+	t_channel	color;
 	int			x;
 	int			y;
 	double		dist_range[2];

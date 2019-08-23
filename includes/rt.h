@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/22 22:29:58 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/23 16:57:13 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,13 @@ typedef struct			s_lights
 typedef struct			s_objects
 {
 	int					type;
-	double				radius;
+	int					specular;
 	t_vec				centre;
 	t_vec				normal;
 	t_vec				hit;
 	t_channel			color;
+	double				radius;
+
 	struct	s_objects	*next;
 }						t_objects;
 
@@ -91,8 +93,9 @@ Uint32					rt_channel_color_to_uint(t_channel color);
 void					rt_mainloop(t_rt *rt, t_canvas *cn);
 void					rt_load_objects(t_objects **objs, const char *fname);
 void					rt_load_lights(t_lights **lights);
+void					rt_intersect_ray(t_ray ray, t_objects *objs, t_intersect *inter, double *dist_range);
 t_channel				rt_enlightenment(t_channel color, double intensity);
-double					rt_compute_lighting(t_lights *lights, t_vec hit, t_vec normal);
+double					rt_compute_lighting(t_objects *objs, t_lights *lights, t_ray ray, t_intersect *inter);
 
 
 #endif
