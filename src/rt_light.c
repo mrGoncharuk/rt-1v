@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 20:48:06 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/23 17:10:44 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/23 20:49:33 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ double		rt_compute_lighting(t_objects *objs, t_lights *lights, t_ray ray, t_inte
 	t_vec	l;
 	double	numerator;
 
-	(void)ray;
 	i = 0.0;
 	while (lights)
 	{

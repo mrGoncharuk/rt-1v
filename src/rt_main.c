@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:24:31 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/23 17:06:15 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/23 21:18:34 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,27 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 	o->type = OBJ_SPHERE;
 	o->centre = (t_vec) {0, -1, 3};
 	o->radius = 1;
-	o->color = (t_channel) {200, 200, 200};
+	o->color = (t_channel) {255, 0, 0};
 	o->specular = 500;
+	o->reflection = 0.2;
 	o->next = (t_objects *)malloc(sizeof(t_objects));
 	
 	o = o->next;
 	o->type = OBJ_SPHERE;
-	o->centre = (t_vec) {-2, 1, 3};
+	o->centre = (t_vec) {-1.5, 0, 4};
+	o->radius = 1;
+	o->color = (t_channel) {0, 0, 255};
+	o->specular = 500;
+	o->reflection = 0.3;
+	o->next = (t_objects *)malloc(sizeof(t_objects));
+
+	o = o->next;
+	o->type = OBJ_SPHERE;
+	o->centre = (t_vec) {1.5, 0, 4};
 	o->radius = 1;
 	o->color = (t_channel) {0, 255, 0};
-	o->specular = 10;
+	o->specular = 500;
+	o->reflection = 0.4;
 	o->next = (t_objects *)malloc(sizeof(t_objects));
 
 	o = o->next;
@@ -54,6 +65,7 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 	o->centre = (t_vec) {0, -5001, 0};
 	o->radius = 5000;
 	o->specular = 1000;
+	o->reflection = 0.5;
 	o->next = NULL;
 }
 
@@ -87,43 +99,6 @@ void		rt_intersect_ray(t_ray ray, t_objects *objs, t_intersect *inter, double *d
 
 }
 
-/*
-t_channel	rt_trace_ray(t_ray ray, t_objects *objs, t_lights *lights, double *dist_range)
-{
-	double		closest_t;
-	t_objects	*closest_obj;
-	t_vec		t;
-
-	closest_t = DBL_MAX;
-	closest_obj = NULL;
-	while (objs)
-	{
-		t = rt_intersect_ray(ray, objs);
-		if (t.x >= dist_range[0] && t.x <= dist_range[1] && t.x < closest_t)
-		{
-			closest_t = t.x;
-			closest_obj = objs;
-		}
-		if (t.y >= dist_range[0] && t.y <= dist_range[1] && t.y < closest_t)
-		{
-			closest_t = t.y;
-			closest_obj = objs;
-		}
-		objs = objs->next;
-	}
-
-	if (!closest_obj)
-		return ((t_channel) {255, 255, 255});
-	t_vec	hit;
-	t_vec	normal;
-
-	hit = ray.origin + closest_t * ray.direction;
-	normal = hit - closest_obj->centre;
-	//rt_enlightenment(closest_obj->color, rt_compute_lighting(lights, hit, normal));
-	return (rt_enlightenment(closest_obj->color, rt_compute_lighting(lights, hit, normal)));
-}
-*/
-
 t_vec		rt_calc_normal(t_intersect *inter)
 {
 	t_vec	normal;
@@ -137,8 +112,23 @@ t_vec		rt_calc_normal(t_intersect *inter)
 		return (0);
 }
 
-t_channel	rt_trace_ray(t_ray ray, t_objects *objs, t_lights *lights, double *dist_range)
+t_vec		rt_reflect_ray(t_vec normal, t_vec ray_dir)
 {
+	return (2 * normal * dot(normal, ray_dir) - ray_dir);
+}
+
+t_channel	rt_calc_reflected_color(t_channel local_color, t_channel reflected_color, double r)
+{	
+	local_color.r = local_color.r * (1 - r) + reflected_color.r * r;
+	local_color.g = local_color.g * (1 - r) + reflected_color.g * r;
+	local_color.b = local_color.b * (1 - r) + reflected_color.b * r;
+	return (local_color);
+}
+
+t_channel	rt_trace_ray(t_ray ray, t_objects *objs, t_lights *lights, double *dist_range, int depth)
+{
+	t_channel	local_color;
+	t_channel	reflected_color;
 	t_intersect	inter;
 	double		i;
 	t_objects	*objs_head;
@@ -152,11 +142,18 @@ t_channel	rt_trace_ray(t_ray ray, t_objects *objs, t_lights *lights, double *dis
 		objs = objs->next;
 	}
 	if (!inter.closest_obj)
-		return ((t_channel) {255, 255, 255});
+		return ((t_channel) {0, 0, 0});
 	inter.hit = ray.origin + inter.dist * ray.direction;
 	inter.normal = rt_calc_normal(&inter);
 	i = rt_compute_lighting(objs_head, lights, ray, &inter);
-	return (rt_enlightenment(inter.closest_obj->color, i));
+	local_color = rt_enlightenment(inter.closest_obj->color, i);
+
+	if (depth <= 0 || inter.closest_obj->reflection <= 0)
+		return	(local_color);
+	ray.direction = rt_reflect_ray(inter.normal, -ray.direction);
+	ray.origin = inter.hit;
+	reflected_color = rt_trace_ray(ray, objs_head, lights, (double []) {0.001, DBL_MAX}, depth - 1);
+	return (rt_calc_reflected_color(local_color, reflected_color, inter.closest_obj->reflection));
 }
 
 
@@ -179,7 +176,7 @@ void	rt_mainloop(t_rt *rt, t_canvas *cn)
 		while (++y < CH / 2)
 		{
 			ray.direction = rt_canvas_to_viewport(x, y);
-			color = rt_trace_ray(ray, rt->objs, rt->lights, dist_range);
+			color = rt_trace_ray(ray, rt->objs, rt->lights, dist_range, RECURTION_DEPTH);
 			ft_pp_img(cn, x + CW / 2, CH / 2 - y, rt_channel_color_to_uint(color));
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/23 16:57:13 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/23 21:03:55 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define VIEWPORT_WIDTH 1
 # define VIEWPORT_HEIGHT 1
 # define DIST_CAM_PP 1
+# define RECURTION_DEPTH 3
+
 typedef double			t_vec __attribute__((__ext_vector_type__(3)));
 
 enum					e_obj_type {OBJ_SPHERE, OBJ_PLANE, OBJ_CONE, OBJ_CYL};
@@ -59,6 +61,7 @@ typedef struct			s_objects
 {
 	int					type;
 	int					specular;
+	double				reflection;
 	t_vec				centre;
 	t_vec				normal;
 	t_vec				hit;
