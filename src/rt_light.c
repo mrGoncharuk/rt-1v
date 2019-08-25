@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 20:48:06 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/23 20:49:33 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/25 13:21:24 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ double		rt_calc_specularity(t_vec normal, t_vec light, t_vec v, int spec)
 	reflect = 2 * normal * dot(normal, light) - light;
 	numerator = dot(reflect, v);
 	if (numerator > 0)
-		i = pow((numerator / (vec_length(reflect) * vec_length(v))), spec);
+		i = pow((numerator / (vec_length(reflect) * vec_length(v))), (double)spec);
 	return (i);
 }
 
@@ -68,12 +68,12 @@ double		rt_compute_lighting(t_objects *objs, t_lights *lights, t_ray ray, t_inte
 				l = lights->position - inter->hit;
 			else
 				l = lights->direction;
-			numerator = dot(inter->normal, l);
 			if (rt_point_in_shadow(objs, inter->hit, l))
 			{
 				lights = lights->next;
 				continue;
 			}
+			numerator = dot(inter->normal, l);
 			if (numerator > 0)
 				i += lights->intensity * numerator / (vec_length(inter->normal) * vec_length(l));
 			if (inter->closest_obj->specular != -1)

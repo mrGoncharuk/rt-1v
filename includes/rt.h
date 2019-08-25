@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/23 21:03:55 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/25 13:29:08 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ void					rt_load_lights(t_lights **lights);
 void					rt_intersect_ray(t_ray ray, t_objects *objs, t_intersect *inter, double *dist_range);
 t_channel				rt_enlightenment(t_channel color, double intensity);
 double					rt_compute_lighting(t_objects *objs, t_lights *lights, t_ray ray, t_intersect *inter);
-
+double					vec_length(t_vec v);
 
 #endif

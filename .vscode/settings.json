@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"locale": "c"
+		"locale": "c",
+		"rt.h": "c"
 	}
 }

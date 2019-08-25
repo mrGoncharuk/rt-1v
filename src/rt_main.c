@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:24:31 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/23 21:18:34 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/25 13:29:52 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,7 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 	
 	o = o->next;
 	o->type = OBJ_SPHERE;
-	o->centre = (t_vec) {-1.5, 0, 4};
-	o->radius = 1;
-	o->color = (t_channel) {0, 0, 255};
-	o->specular = 500;
-	o->reflection = 0.3;
-	o->next = (t_objects *)malloc(sizeof(t_objects));
-
-	o = o->next;
-	o->type = OBJ_SPHERE;
-	o->centre = (t_vec) {1.5, 0, 4};
+	o->centre = (t_vec) {-2, 0, 4};
 	o->radius = 1;
 	o->color = (t_channel) {0, 255, 0};
 	o->specular = 500;
@@ -61,11 +52,23 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 
 	o = o->next;
 	o->type = OBJ_SPHERE;
-	o->color = (t_channel) {255, 255, 0};
+	o->color = (t_channel) {255, 255, 1};
 	o->centre = (t_vec) {0, -5001, 0};
 	o->radius = 5000;
 	o->specular = 1000;
 	o->reflection = 0.5;
+	o->next = (t_objects *)malloc(sizeof(t_objects));
+	o = o->next;
+	
+	o->type = OBJ_SPHERE;
+	o->centre = (t_vec) {2, 0, 4};
+	o->radius = 1;
+	o->color = (t_channel) {0, 0, 255};
+	o->specular = 10;
+	o->reflection = 0.3;
+
+
+
 	o->next = NULL;
 }
 
@@ -102,11 +105,15 @@ void		rt_intersect_ray(t_ray ray, t_objects *objs, t_intersect *inter, double *d
 t_vec		rt_calc_normal(t_intersect *inter)
 {
 	t_vec	normal;
+	double	len;
 
 	if (inter->closest_obj->type == OBJ_SPHERE)
 	{
 		normal = inter->hit - inter->closest_obj->centre;
-		return (normal);
+		if ((len = vec_length(normal)) == 1)
+			return (normal);
+		else
+			return (normal / vec_length(normal));
 	}
 	else
 		return (0);
