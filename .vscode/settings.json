@@ -1,6 +1,8 @@
 {
 	"files.associations": {
 		"locale": "c",
-		"rt.h": "c"
+		"rt.h": "c",
+		"complex": "c",
+		"cmath": "c"
 	}
 }

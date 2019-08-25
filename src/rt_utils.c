@@ -6,16 +6,17 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 15:21:23 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 17:43:10 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/25 21:27:41 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_vec		rt_calc_normal(t_intersect *inter)
+t_vec		rt_calc_normal(t_intersect *inter, t_ray ray)
 {
 	t_vec	normal;
 	double	len;
+	double	m;
 
 	if (inter->closest_obj->type == OBJ_SPHERE)
 	{
@@ -24,6 +25,14 @@ t_vec		rt_calc_normal(t_intersect *inter)
 			return (normal);
 		else
 			return (normal / vec_length(normal));
+	}
+	else if (inter->closest_obj->type == OBJ_PLANE)
+		return (inter->closest_obj->normal);					//return (-inter->closest_obj->normal);
+	else if (inter->closest_obj->type == OBJ_CYL)
+	{
+		m = dot(ray.direction, inter->closest_obj->normal) * inter->dist + dot((ray.origin - inter->closest_obj->centre), inter->closest_obj->normal);
+		normal = inter->hit - inter->closest_obj->centre - inter->closest_obj->normal * m;
+		return (normal / vec_length(normal));
 	}
 	else
 		return (0);

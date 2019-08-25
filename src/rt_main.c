@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:24:31 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 17:31:12 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/25 21:15:56 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ void		rt_intersect_ray(t_ray ray, t_objects *objs, t_intersect *inter,
 {
 	if (objs->type == OBJ_SPHERE)
 		rt_intersect_ray_sphere(ray, objs, inter, dist_range);
+	if (objs->type == OBJ_PLANE)
+		rt_intersect_ray_plane(ray, objs, inter, dist_range);
+	if (objs->type == OBJ_CYL)
+		rt_intersect_ray_cylinder(ray, objs, inter, dist_range);
+	// if (objs->type == OBJ_CONE)
+	// 	rt_intersect_ray_cone(ray, objs, inter, dist_range);
 }
 
 t_vec		rt_canvas_to_viewport(int x, int y)
@@ -49,7 +55,7 @@ t_channel	rt_trace_ray(t_ray ray, t_rt *rt, double *dist_range, int depth)
 	if (!rt_find_closest_obj(ray, rt->objs, &inter, dist_range))
 		return ((t_channel) {0, 0, 0});
 	inter.hit = ray.origin + inter.dist * ray.direction;
-	inter.normal = rt_calc_normal(&inter);
+	inter.normal = rt_calc_normal(&inter, ray);
 	i = rt_compute_lighting(rt->objs, rt->lights, ray, &inter);
 	local_color = rt_enlightenment(inter.closest_obj->color, i);
 	if (depth <= 0 || inter.closest_obj->reflection <= 0)
@@ -71,7 +77,7 @@ void		rt_mainloop(t_rt *rt, t_canvas *cn)
 	double		dist_range[2];
 
 	dist_range[0] = 1;
-	dist_range[1] = 2;
+	dist_range[1] = DBL_MAX;
 	ray.origin = (t_vec) {0, 0, -3};
 	x = -CW / 2 - 1;
 	while (++x < CW / 2)

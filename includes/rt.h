@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 17:46:28 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/25 21:23:15 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,10 @@ typedef struct			s_rt
 double					dot(t_vec a, t_vec b);
 void					rt_intersect_ray_sphere(t_ray ray, t_objects *sphere,
 							t_intersect *inter, double *dist_range);
+void	rt_intersect_ray_plane(t_ray ray, t_objects *plane,
+							t_intersect *inter, double *dist_range);
+void	rt_intersect_ray_cylinder(t_ray ray, t_objects *cyl,
+							t_intersect *inter, double *dist_range);
 Uint32					rt_channel_color_to_uint(t_channel color);
 void					rt_mainloop(t_rt *rt, t_canvas *cn);
 void					rt_load_objects(t_objects **objs, const char *fname);
@@ -93,7 +97,7 @@ double					rt_compute_lighting(t_objects *objs,
 t_channel				rt_calc_reflected_color(t_channel local_color,
 							t_channel reflected_color, double r);
 t_vec					rt_reflect_ray(t_vec normal, t_vec ray_dir);
-t_vec					rt_calc_normal(t_intersect *inter);
+t_vec					rt_calc_normal(t_intersect *inter, t_ray ray);
 void					rt_load_objects(t_objects **objs, const char *fname);
 void					rt_load_lights(t_lights **lights);
 double					vec_length(t_vec v);
