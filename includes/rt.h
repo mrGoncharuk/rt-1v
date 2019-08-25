@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 13:29:08 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/25 17:46:28 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 
 # include <float.h>
 
-
 # include "guimp.h"
 # define CW CN_WIDTH
 # define CH CN_HEIGHT
 # define VIEWPORT_WIDTH 1
 # define VIEWPORT_HEIGHT 1
-# define DIST_CAM_PP 1
+# define DIST_CAM_PP 1		/* projection_plane_z */
 # define RECURTION_DEPTH 3
 
 typedef double			t_vec __attribute__((__ext_vector_type__(3)));
@@ -36,13 +35,11 @@ typedef struct			s_channel
 	int					b;
 }						t_channel;
 
-
-typedef struct	s_ray
+typedef struct			s_ray
 {
 	t_vec				origin;
 	t_vec				direction;
 }						t_ray;
-
 
 typedef struct			s_lights
 {
@@ -51,26 +48,21 @@ typedef struct			s_lights
 	t_vec				position;
 	t_vec				direction;
 	t_channel			color;
-	struct	s_lights	*next;
+	struct s_lights		*next;
 }						t_lights;
-
-
-
 
 typedef struct			s_objects
 {
 	int					type;
-	int					specular;
+	double				specular;
 	double				reflection;
 	t_vec				centre;
 	t_vec				normal;
 	t_vec				hit;
 	t_channel			color;
 	double				radius;
-
-	struct	s_objects	*next;
+	struct s_objects	*next;
 }						t_objects;
-
 
 typedef struct			s_intersect
 {
@@ -78,10 +70,7 @@ typedef struct			s_intersect
 	t_objects			*closest_obj;
 	t_vec				hit;
 	t_vec				normal;
-
-
 }						t_intersect;
-
 
 typedef struct			s_rt
 {
@@ -89,16 +78,24 @@ typedef struct			s_rt
 	t_lights			*lights;
 }						t_rt;
 
-
 double					dot(t_vec a, t_vec b);
-void					rt_intersect_ray_sphere(t_ray ray, t_objects *sphere, t_intersect *inter, double *dist_range);
+void					rt_intersect_ray_sphere(t_ray ray, t_objects *sphere,
+							t_intersect *inter, double *dist_range);
 Uint32					rt_channel_color_to_uint(t_channel color);
 void					rt_mainloop(t_rt *rt, t_canvas *cn);
 void					rt_load_objects(t_objects **objs, const char *fname);
 void					rt_load_lights(t_lights **lights);
-void					rt_intersect_ray(t_ray ray, t_objects *objs, t_intersect *inter, double *dist_range);
+void					rt_intersect_ray(t_ray ray, t_objects *objs,
+							t_intersect *inter, double *dist_range);
 t_channel				rt_enlightenment(t_channel color, double intensity);
-double					rt_compute_lighting(t_objects *objs, t_lights *lights, t_ray ray, t_intersect *inter);
+double					rt_compute_lighting(t_objects *objs,
+							t_lights *lights, t_ray ray, t_intersect *inter);
+t_channel				rt_calc_reflected_color(t_channel local_color,
+							t_channel reflected_color, double r);
+t_vec					rt_reflect_ray(t_vec normal, t_vec ray_dir);
+t_vec					rt_calc_normal(t_intersect *inter);
+void					rt_load_objects(t_objects **objs, const char *fname);
+void					rt_load_lights(t_lights **lights);
 double					vec_length(t_vec v);
 
 #endif

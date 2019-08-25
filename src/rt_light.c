@@ -6,18 +6,22 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 20:48:06 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 13:21:24 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/25 17:43:47 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-double	vec_length(t_vec v)
+t_channel	rt_calc_reflected_color(t_channel local_color,
+				t_channel reflected_color, double r)
 {
-	return (sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]));
+	local_color.r = local_color.r * (1 - r) + reflected_color.r * r;
+	local_color.g = local_color.g * (1 - r) + reflected_color.g * r;
+	local_color.b = local_color.b * (1 - r) + reflected_color.b * r;
+	return (local_color);
 }
 
-double		rt_calc_specularity(t_vec normal, t_vec light, t_vec v, int spec)
+double		rt_calc_specularity(t_vec normal, t_vec light, t_vec v, double spec)
 {
 	double	i;
 	t_vec	reflect;
@@ -27,14 +31,13 @@ double		rt_calc_specularity(t_vec normal, t_vec light, t_vec v, int spec)
 	reflect = 2 * normal * dot(normal, light) - light;
 	numerator = dot(reflect, v);
 	if (numerator > 0)
-		i = pow((numerator / (vec_length(reflect) * vec_length(v))), (double)spec);
+		i = pow((numerator / (vec_length(reflect) * vec_length(v))), spec);
 	return (i);
 }
 
-
 bool		rt_point_in_shadow(t_objects *objs, t_vec point, t_vec light)
 {
-	double	dist_range[2];
+	double		dist_range[2];
 	t_intersect	inter;
 	t_ray		ray;
 
@@ -49,20 +52,36 @@ bool		rt_point_in_shadow(t_objects *objs, t_vec point, t_vec light)
 		return (false);
 	else
 		return (true);
-
 }
-double		rt_compute_lighting(t_objects *objs, t_lights *lights, t_ray ray, t_intersect *inter)
+
+double		rt_calc_intesity(t_lights *light, t_ray r, t_vec l, t_intersect *in)
+{
+	double	numerator;
+	double	i;
+
+	i = 0;
+	numerator = dot(in->normal, l);
+	if (numerator > 0)
+		i += light->intensity * numerator / (vec_length(in->normal) *
+				vec_length(l));
+	if (in->closest_obj->specular != -1)
+		i += light->intensity * rt_calc_specularity(in->normal, l,
+				-r.direction, in->closest_obj->specular);
+	return (i);
+}
+
+double		rt_compute_lighting(t_objects *objs, t_lights *lights,
+			t_ray ray, t_intersect *inter)
 {
 	double	i;
 	t_vec	l;
-	double	numerator;
 
 	i = 0.0;
 	while (lights)
 	{
 		if (lights->type == LT_AMBIENT)
 			i += lights->intensity;
-		else 
+		else
 		{
 			if (lights->type == LT_POINT)
 				l = lights->position - inter->hit;
@@ -73,24 +92,9 @@ double		rt_compute_lighting(t_objects *objs, t_lights *lights, t_ray ray, t_inte
 				lights = lights->next;
 				continue;
 			}
-			numerator = dot(inter->normal, l);
-			if (numerator > 0)
-				i += lights->intensity * numerator / (vec_length(inter->normal) * vec_length(l));
-			if (inter->closest_obj->specular != -1)
-				i += lights->intensity * rt_calc_specularity(inter->normal, l, -ray.direction, inter->closest_obj->specular);
+			i += rt_calc_intesity(lights, ray, l, inter);
 		}
 		lights = lights->next;
 	}
 	return (i);
-}
-
-t_channel	rt_enlightenment(t_channel color, double intensity)
-{
-	if ((color.r = color.r * intensity) > 255)
-		color.r = 255;
-	if ((color.g = color.g * intensity) > 255)
-		color.g = 255;
-	if ((color.b = color.b * intensity) > 255)
-		color.b = 255;
-	return (color);
 }
