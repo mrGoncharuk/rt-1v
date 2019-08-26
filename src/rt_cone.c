@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt_cylinder.c                                      :+:      :+:    :+:   */
+/*   rt_cone.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/25 20:16:47 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/26 18:04:32 by mhonchar         ###   ########.fr       */
+/*   Created: 2019/08/26 16:53:54 by mhonchar          #+#    #+#             */
+/*   Updated: 2019/08/26 18:04:44 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_vec			rt_calc_cylinder_normal(t_intersect *i, t_ray ray)
+t_vec			rt_calc_cone_normal(t_intersect *i, t_ray ray)
 {
 	t_vec	normal;
 	double	m;
 
 	m = dot(ray.direction, i->closest_obj->normal) * i->dist +
 		dot((ray.origin - i->closest_obj->centre), i->closest_obj->normal);
-	normal = i->hit - i->closest_obj->centre -
+	normal = i->hit - i->closest_obj->centre - i->closest_obj->k *
 		i->closest_obj->normal * m;
 	return (normal / vec_length(normal));
 }
@@ -34,7 +34,7 @@ static double	rt_select_dist(double *roots, double *dist_range)
 		return (roots[0]);
 }
 
-void			rt_intersect_ray_cylinder(t_ray ray, t_objects *cyl,
+void			rt_intersect_ray_cone(t_ray ray, t_objects *cone,
 					t_intersect *inter, double *dist_range)
 {
 	double	roots[2];
@@ -43,12 +43,12 @@ void			rt_intersect_ray_cylinder(t_ray ray, t_objects *cyl,
 	double	discriminant;
 	double	curr_t;
 
-	oc = ray.origin - cyl->centre;
-	coeff[0] = dot(ray.direction, ray.direction) -
-				pow(dot(ray.direction, cyl->normal), 2);
-	coeff[1] = 2 * (dot(ray.direction, oc) -
-				dot(ray.direction, cyl->normal) * dot(oc, cyl->normal));
-	coeff[2] = dot(oc, oc) - pow(dot(oc, cyl->normal), 2) - cyl->radius;
+	oc = ray.origin - cone->centre;
+	coeff[0] = dot(ray.direction, ray.direction) - cone->k *
+		pow(dot(ray.direction, cone->normal), 2);
+	coeff[1] = 2 * (dot(ray.direction, oc) - cone->k *
+		dot(ray.direction, cone->normal) * dot(oc, cone->normal));
+	coeff[2] = dot(oc, oc) - cone->k * pow(dot(oc, cone->normal), 2);
 	discriminant = coeff.y * coeff.y - 4 * coeff.x * coeff.z;
 	if (discriminant > 0)
 	{
@@ -58,7 +58,7 @@ void			rt_intersect_ray_cylinder(t_ray ray, t_objects *cyl,
 		if (curr_t < inter->dist)
 		{
 			inter->dist = curr_t;
-			inter->closest_obj = cyl;
+			inter->closest_obj = cone;
 		}
 	}
 }

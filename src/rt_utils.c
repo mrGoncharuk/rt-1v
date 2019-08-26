@@ -6,36 +6,16 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 15:21:23 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 21:27:41 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/26 17:44:12 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_vec		rt_calc_normal(t_intersect *inter, t_ray ray)
+t_vec		rt_canvas_to_viewport(int x, int y)
 {
-	t_vec	normal;
-	double	len;
-	double	m;
-
-	if (inter->closest_obj->type == OBJ_SPHERE)
-	{
-		normal = inter->hit - inter->closest_obj->centre;
-		if ((len = vec_length(normal)) == 1)
-			return (normal);
-		else
-			return (normal / vec_length(normal));
-	}
-	else if (inter->closest_obj->type == OBJ_PLANE)
-		return (inter->closest_obj->normal);					//return (-inter->closest_obj->normal);
-	else if (inter->closest_obj->type == OBJ_CYL)
-	{
-		m = dot(ray.direction, inter->closest_obj->normal) * inter->dist + dot((ray.origin - inter->closest_obj->centre), inter->closest_obj->normal);
-		normal = inter->hit - inter->closest_obj->centre - inter->closest_obj->normal * m;
-		return (normal / vec_length(normal));
-	}
-	else
-		return (0);
+	return ((t_vec){(double)x * (double)VIEWPORT_WIDTH / (double)CW,
+				(double)y * (double)VIEWPORT_HEIGHT / (double)CH, DIST_CAM_PP});
 }
 
 t_channel	rt_enlightenment(t_channel color, double intensity)

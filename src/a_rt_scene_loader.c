@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 15:18:24 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 21:28:48 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/26 18:09:02 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,16 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 	o->reflection = 0.4;
 	o->next = (t_objects *)malloc(sizeof(t_objects));
 
-	// o = o->next;
-	// o->type = OBJ_SPHERE;
-	// o->color = (t_channel) {255, 255, 1};
-	// o->centre = (t_vec) {0, -5001, 0};
-	// o->radius = 5000;
-	// o->specular = 1000;
-	// o->reflection = 0.5;
-	// o->next = (t_objects *)malloc(sizeof(t_objects));
 	o = o->next;
+	o->type = OBJ_SPHERE;
+	o->color = (t_channel) {255, 255, 1};
+	o->centre = (t_vec) {0, -5001, 0};
+	o->radius = 5000;
+	o->specular = 1000;
+	o->reflection = 0.5;
+	o->next = (t_objects *)malloc(sizeof(t_objects));
 	
+	o = o->next;	
 	o->type = OBJ_SPHERE;
 	o->centre = (t_vec) {2, 0, 4};
 	o->radius = 1;
@@ -54,36 +54,46 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 	o->specular = 10;
 	o->reflection = 0.3;
 	o->next = (t_objects *)malloc(sizeof(t_objects));
+
+
 	o = o->next;
+	o->type = OBJ_PLANE;
+	o->centre = (t_vec) {0, 0, 100};
+	o->color = (t_channel) {255, 255, 255};
+	o->normal = (t_vec) {0, 0, 1};
+	o->specular = 10;
+	o->reflection = 0;
+	o->next = (t_objects *)malloc(sizeof(t_objects));
+
+	o = o->next;
+	o->type = OBJ_PLANE;
+	o->centre = (t_vec) {0, 3, 0};
+	o->color = (t_channel) {125, 25, 55};
+	o->normal = (t_vec) {0, 1, 0};
+	o->specular = 0;
+	o->reflection = 0;
+	o->next = (t_objects *)malloc(sizeof(t_objects));
 
 
-	// o->type = OBJ_PLANE;
-	// o->centre = (t_vec) {0, 0, 100};
-	// o->color = (t_channel) {255, 255, 255};
-	// o->normal = (t_vec) {0, 0, 1};
-	// o->specular = 10;
-	// o->reflection = 0;
-	// o->next = (t_objects *)malloc(sizeof(t_objects));
-	// o = o->next;
-
+	o = o->next;
 	o->type = OBJ_CYL;
 	o->centre = (t_vec) {-2, 2, 10};
 	o->color = (t_channel) {66, 255, 120};
-	o->normal = (t_vec) {1, 0, 0};
+	o->normal = (t_vec) {0, 1, 0};
 	o->radius = 0.6;
 	o->specular = 10;
 	o->reflection = 0;
-	// o->next = (t_objects *)malloc(sizeof(t_objects));
-	// o = o->next;
-
-
-	// o->type = OBJ_PLANE;
-	// o->centre = (t_vec) {0, 1, 0};
-	// o->color = (t_channel) {125, 25, 55};
-	// o->normal = (t_vec) {0, 1, 0};
-	// o->specular = 0;
-	// o->reflection = 0;
-
+	o->next = (t_objects *)malloc(sizeof(t_objects));
+	
+	o = o->next;
+	o->type = OBJ_CONE;
+	o->centre = (t_vec) {3, 0, 10};
+	o->color = (t_channel) {200, 200, 69};
+	o->normal = (t_vec) {0, 1, 0};
+	o->radius = 1.0471975512;				//   pi/3
+	o->specular = 30;
+	o->reflection = 0;
+	o->k = (1 + pow(tan(o->radius / 2), 2));
 	o->next = NULL;
 }
 

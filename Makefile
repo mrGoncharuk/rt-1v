@@ -6,7 +6,7 @@
 #    By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/15 19:28:21 by mhonchar          #+#    #+#              #
-#    Updated: 2019/08/25 21:22:22 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/08/26 17:05:09 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC_FILES =		main.c \
 				rt_sphere.c \
 				rt_plane.c \
 				rt_cylinder.c \
+				rt_cone.c \
 				rt_utils.c \
 				rt_vec_op_utils.c \
 				a_rt_scene_loader.c 

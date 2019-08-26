@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 21:23:15 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/26 18:05:06 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct			s_objects
 	t_vec				hit;
 	t_channel			color;
 	double				radius;
+	double				k;
 	struct s_objects	*next;
 }						t_objects;
 
@@ -81,10 +82,16 @@ typedef struct			s_rt
 double					dot(t_vec a, t_vec b);
 void					rt_intersect_ray_sphere(t_ray ray, t_objects *sphere,
 							t_intersect *inter, double *dist_range);
-void	rt_intersect_ray_plane(t_ray ray, t_objects *plane,
+void					rt_intersect_ray_plane(t_ray ray, t_objects *plane,
 							t_intersect *inter, double *dist_range);
-void	rt_intersect_ray_cylinder(t_ray ray, t_objects *cyl,
+void					rt_intersect_ray_cylinder(t_ray ray, t_objects *cyl,
 							t_intersect *inter, double *dist_range);
+void					rt_intersect_ray_cone(t_ray ray, t_objects *cone,
+							t_intersect *inter, double *dist_range);
+t_vec					rt_calc_plane_normal(t_intersect *inter, t_ray ray);
+t_vec					rt_calc_sphere_normal(t_intersect *inter);
+t_vec					rt_calc_cylinder_normal(t_intersect *inter, t_ray ray);
+t_vec					rt_calc_cone_normal(t_intersect *inter, t_ray ray);
 Uint32					rt_channel_color_to_uint(t_channel color);
 void					rt_mainloop(t_rt *rt, t_canvas *cn);
 void					rt_load_objects(t_objects **objs, const char *fname);
@@ -92,6 +99,7 @@ void					rt_load_lights(t_lights **lights);
 void					rt_intersect_ray(t_ray ray, t_objects *objs,
 							t_intersect *inter, double *dist_range);
 t_channel				rt_enlightenment(t_channel color, double intensity);
+t_vec					rt_canvas_to_viewport(int x, int y);
 double					rt_compute_lighting(t_objects *objs,
 							t_lights *lights, t_ray ray, t_intersect *inter);
 t_channel				rt_calc_reflected_color(t_channel local_color,

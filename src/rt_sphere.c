@@ -6,11 +6,19 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 15:17:35 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 15:14:08 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/26 18:03:37 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+t_vec			rt_calc_sphere_normal(t_intersect *inter)
+{
+	t_vec	normal;
+
+	normal = inter->hit - inter->closest_obj->centre;
+	return (normal / vec_length(normal));
+}
 
 static double	rt_select_dist(double *roots, double *dist_range)
 {

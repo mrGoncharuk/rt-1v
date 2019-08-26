@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:24:31 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 21:15:56 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/26 17:44:20 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,22 @@ void		rt_intersect_ray(t_ray ray, t_objects *objs, t_intersect *inter,
 		rt_intersect_ray_plane(ray, objs, inter, dist_range);
 	if (objs->type == OBJ_CYL)
 		rt_intersect_ray_cylinder(ray, objs, inter, dist_range);
-	// if (objs->type == OBJ_CONE)
-	// 	rt_intersect_ray_cone(ray, objs, inter, dist_range);
+	if (objs->type == OBJ_CONE)
+		rt_intersect_ray_cone(ray, objs, inter, dist_range);
 }
 
-t_vec		rt_canvas_to_viewport(int x, int y)
+t_vec		rt_calc_normal(t_intersect *inter, t_ray ray)
 {
-	return ((t_vec){(double)x * (double)VIEWPORT_WIDTH / (double)CW,
-				(double)y * (double)VIEWPORT_HEIGHT / (double)CH, DIST_CAM_PP});
+	if (inter->closest_obj->type == OBJ_SPHERE)
+		return (rt_calc_sphere_normal(inter));
+	else if (inter->closest_obj->type == OBJ_PLANE)
+		return (rt_calc_plane_normal(inter, ray));
+	else if (inter->closest_obj->type == OBJ_CYL)
+		return (rt_calc_cylinder_normal(inter, ray));
+	else if (inter->closest_obj->type == OBJ_CONE)
+		return (rt_calc_cone_normal(inter, ray));
+	else
+		return (0);
 }
 
 bool		rt_find_closest_obj(t_ray ray, t_objects *objs, t_intersect *inter,
