@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 20:48:06 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/25 17:43:47 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/27 20:08:25 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ double		rt_calc_intesity(t_lights *light, t_ray r, t_vec l, t_intersect *in)
 	if (numerator > 0)
 		i += light->intensity * numerator / (vec_length(in->normal) *
 				vec_length(l));
-	if (in->closest_obj->specular != -1)
+	if (in->closest_obj->specular > 0)
 		i += light->intensity * rt_calc_specularity(in->normal, l,
 				-r.direction, in->closest_obj->specular);
 	return (i);

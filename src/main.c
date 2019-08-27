@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 17:36:52 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/19 18:26:01 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/27 16:44:16 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int		main(void)
 
 	ft_sdl_init(&app);
 	ft_mainloop(&app);
-	SDL_Delay(4000);
+	// SDL_Delay(4000);
 	ft_sdl_clean(&app);
+
+
+
     return (0);
 }

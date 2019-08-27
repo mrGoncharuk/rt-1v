@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/26 18:05:06 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/27 21:08:12 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 # include <float.h>
 
 # include "guimp.h"
+# include "parson.h"
 # define CW CN_WIDTH
 # define CH CN_HEIGHT
 # define VIEWPORT_WIDTH 1
 # define VIEWPORT_HEIGHT 1
 # define DIST_CAM_PP 1		/* projection_plane_z */
 # define RECURTION_DEPTH 3
+# define DEG_TO_RAD(angle) (M_PI * angle) / 180
 
 typedef double			t_vec __attribute__((__ext_vector_type__(3)));
 
@@ -58,10 +60,10 @@ typedef struct			s_objects
 	double				reflection;
 	t_vec				centre;
 	t_vec				normal;
-	t_vec				hit;
 	t_channel			color;
 	double				radius;
 	double				k;
+	double				angle;
 	struct s_objects	*next;
 }						t_objects;
 

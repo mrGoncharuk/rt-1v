@@ -6,7 +6,7 @@
 #    By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/15 19:28:21 by mhonchar          #+#    #+#              #
-#    Updated: 2019/08/26 17:05:09 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/08/27 16:45:17 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ SRC_FILES =		main.c \
 				rt_cone.c \
 				rt_utils.c \
 				rt_vec_op_utils.c \
-				a_rt_scene_loader.c 
+				a_rt_scene_loader.c
+				
 
 				
 HEADERS = 		$(INC_DIR)guimp.h \
@@ -61,6 +62,7 @@ CC = gcc -g -fsanitize=address
 CFLAGS = -Wall -Werror -Wextra
 INC = 	-I $(INC_DIR) \
 		-I libui/includes/ \
+		-I libparson \
 		-I libsdl/include/SDL2/ \
 		-I libsdl_image/include/SDL2/ \
 		-I libsdl_ttf/include/SDL2/ 

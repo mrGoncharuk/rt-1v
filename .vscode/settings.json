@@ -3,6 +3,9 @@
 		"locale": "c",
 		"rt.h": "c",
 		"complex": "c",
-		"cmath": "c"
+		"cmath": "c",
+		"guimp.h": "c",
+		"parson.h": "c",
+		"stdbool.h": "c"
 	}
 }

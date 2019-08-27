@@ -1,0 +1,26 @@
+{
+	"objects": [{
+		"type": "sphere",
+		"centre": [1.0, 1.0, 5.0],
+		"normal": [0.0, 0.0, 0.0],
+		"color": [255, 0, 0],
+		"specular": 500.0,
+		"reflection": 0.2,
+		"radius": 1.5
+	}, {
+		"type": "cone",
+		"centre": [-1.0, -1.0, 5.0],
+		"normal": [1, 0, 0],
+		"color": [255, 50, 228],
+		"specular": 30.0,
+		"reflection": 0,
+		"radius": 1.4
+	} ],
+	"lights": [{
+		"type": "ambient",
+		"intensity": 0.3
+	}, {
+		"type": "point",
+		"position": [6.0, 6.0, 6.0]
+	} ]
+}
