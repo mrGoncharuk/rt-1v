@@ -6,13 +6,12 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 15:46:34 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/28 14:15:14 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/28 16:49:35 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-// TODO: add function for freeing objects
 bool	parse_array_of_scene_objects(const JSON_Array *j_arr, t_objects **objs)
 {
 	JSON_Object	*j_ob;
@@ -31,19 +30,17 @@ bool	parse_array_of_scene_objects(const JSON_Array *j_arr, t_objects **objs)
 			obj->next = (t_objects *)malloc(sizeof(t_objects));
 			obj = obj->next;
 		}
-		j_ob = json_array_get_object(j_arr, i);
+		j_ob = json_array_get_object(j_arr, i++);
 		if (!pr_object(j_ob, obj))
 		{
-			// free obj
+			rt_free_objects(objs);
 			return (false);
 		}
-		i++;
 	}
 	obj->next = NULL;
 	return (true);
 }
 
-// TODO: add function for freeing objects
 bool	parse_array_of_lights(const JSON_Array *j_arr, t_lights **lights)
 {
 	JSON_Object	*j_ob;
@@ -65,7 +62,7 @@ bool	parse_array_of_lights(const JSON_Array *j_arr, t_lights **lights)
 		j_ob = json_array_get_object(j_arr, i++);
 		if (!pr_light(j_ob, light))
 		{
-			// free light
+			rt_free_lights(lights);
 			return (false);
 		}
 	}
@@ -73,7 +70,7 @@ bool	parse_array_of_lights(const JSON_Array *j_arr, t_lights **lights)
 	return (true);
 }
 
-bool		rt_parse_file(t_rt *rt, const char *fname)
+bool	rt_parse_file(t_rt *rt, const char *fname)
 {
 	JSON_Value	*json_val;
 	JSON_Object *json_objs;

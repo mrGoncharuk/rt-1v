@@ -6,7 +6,7 @@
 #    By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/15 19:28:21 by mhonchar          #+#    #+#              #
-#    Updated: 2019/08/28 13:58:00 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/08/28 16:45:18 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,8 +42,8 @@ SRC_FILES =		main.c \
 				rt_cone.c \
 				rt_utils.c \
 				rt_vec_op_utils.c \
-				a_rt_scene_loader.c \
 				rt_parse.c \
+				rt_clean.c \
 				pr_fields.c \
 				pr_fields2.c \
 				pr_lights.c \

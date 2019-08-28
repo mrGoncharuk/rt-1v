@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 12:16:14 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/28 14:01:11 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/28 16:44:55 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,25 @@
 **	given value string have unknown object type;
 **	Success values: sphere, plane, cylinder, cone;
 */
+
+bool	pr_object2(const JSON_Object *j_ob, t_objects *obj, const char *obj_t)
+{
+	if (ft_strcmp(obj_t, "cylinder") == 0)
+	{
+		obj->type = OBJ_CYL;
+		if (!pr_obj_cyl(j_ob, obj))
+			return (false);
+	}
+	else if (ft_strcmp(obj_t, "cone") == 0)
+	{
+		obj->type = OBJ_CONE;
+		if (!pr_obj_cone(j_ob, obj))
+			return (false);
+	}
+	else
+		return (false);
+	return (true);
+}
 
 bool	pr_object(const JSON_Object *j_ob, t_objects *obj)
 {
@@ -36,20 +55,8 @@ bool	pr_object(const JSON_Object *j_ob, t_objects *obj)
 		if (!pr_obj_plane(j_ob, obj))
 			return (false);
 	}
-	else if (ft_strcmp(obj_type, "cylinder") == 0)
-	{
-		obj->type = OBJ_CYL;
-		if (!pr_obj_cyl(j_ob, obj))
-			return (false);
-	}
-	else if (ft_strcmp(obj_type, "cone") == 0)
-	{
-		obj->type = OBJ_CONE;
-		if (!pr_obj_cone(j_ob, obj))
-			return (false);
-	}
 	else
-		return (false);
+		return (pr_object2(j_ob, obj, obj_type));
 	return (true);
 }
 

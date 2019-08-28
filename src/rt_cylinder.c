@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 20:16:47 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/27 17:48:49 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/28 16:40:51 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ t_vec			rt_calc_cylinder_normal(t_intersect *i, t_ray ray)
 	t_vec	normal;
 	double	m;
 
-	m = dot(ray.direction, i->closest_obj->normal) * i->dist +
-		dot((ray.origin - i->closest_obj->centre), i->closest_obj->normal);
+	m = dot(ray.direction, i->closest_obj->orient) * i->dist +
+		dot((ray.origin - i->closest_obj->centre), i->closest_obj->orient);
 	normal = i->hit - i->closest_obj->centre -
-		i->closest_obj->normal * m;
+		i->closest_obj->orient * m;
 	return (normal / vec_length(normal));
 }
 
@@ -45,10 +45,10 @@ void			rt_intersect_ray_cylinder(t_ray ray, t_objects *cyl,
 
 	oc = ray.origin - cyl->centre;
 	coeff[0] = dot(ray.direction, ray.direction) -
-				pow(dot(ray.direction, cyl->normal), 2);
+				pow(dot(ray.direction, cyl->orient), 2);
 	coeff[1] = 2 * (dot(ray.direction, oc) -
-				dot(ray.direction, cyl->normal) * dot(oc, cyl->normal));
-	coeff[2] = dot(oc, oc) - pow(dot(oc, cyl->normal), 2) - cyl->radius;
+				dot(ray.direction, cyl->orient) * dot(oc, cyl->orient));
+	coeff[2] = dot(oc, oc) - pow(dot(oc, cyl->orient), 2) - cyl->radius;
 	discriminant = coeff.y * coeff.y - 4 * coeff.x * coeff.z;
 	if (discriminant > 0)
 	{

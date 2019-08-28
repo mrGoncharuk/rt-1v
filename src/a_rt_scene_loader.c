@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 15:18:24 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/27 21:05:11 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/28 16:45:32 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 	o->type = OBJ_PLANE;
 	o->centre = (t_vec) {0, 0, 100};
 	o->color = (t_channel) {255, 255, 255};
-	o->normal = (t_vec) {0, 0, 1};
+	o->orient = (t_vec) {0, 0, 1};
 	o->specular = 10;
 	o->reflection = 0;
 	o->next = (t_objects *)malloc(sizeof(t_objects));
@@ -69,7 +69,7 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 	o->type = OBJ_PLANE;
 	o->centre = (t_vec) {0, 3, 0};
 	o->color = (t_channel) {125, 25, 55};
-	o->normal = (t_vec) {0, 1, 0};
+	o->orient = (t_vec) {0, 1, 0};
 	o->specular = 0;
 	o->reflection = 0;
 	o->next = (t_objects *)malloc(sizeof(t_objects));
@@ -79,7 +79,7 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 	o->type = OBJ_CYL;
 	o->centre = (t_vec) {-2, 2, 10};
 	o->color = (t_channel) {66, 255, 120};
-	o->normal = (t_vec) {0, 1, 0};
+	o->orient = (t_vec) {0, 1, 0};
 	o->radius = 0.6;
 	o->specular = 10;
 	o->reflection = 0;
@@ -89,7 +89,7 @@ void	rt_load_objects(t_objects **objs, const char *fname)
 	o->type = OBJ_CONE;
 	o->centre = (t_vec) {3, 0, 10};
 	o->color = (t_channel) {200, 200, 69};
-	o->normal = (t_vec) {0, 1, 0};
+	o->orient = (t_vec) {0, 1, 0};
 	o->radius = M_PI;				//   pi/3
 	o->specular = 30;
 	o->reflection = 0;

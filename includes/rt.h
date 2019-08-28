@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/28 13:30:02 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/28 16:49:53 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct			s_objects
 	double				specular;
 	double				reflection;
 	t_vec				centre;
-	t_vec				normal;
+	t_vec				orient;
 	t_channel			color;
 	double				radius;
 	double				k;
@@ -96,8 +96,6 @@ t_vec					rt_calc_cylinder_normal(t_intersect *inter, t_ray ray);
 t_vec					rt_calc_cone_normal(t_intersect *inter, t_ray ray);
 Uint32					rt_channel_color_to_uint(t_channel color);
 void					rt_mainloop(t_rt *rt, t_canvas *cn);
-void					rt_load_objects(t_objects **objs, const char *fname);
-void					rt_load_lights(t_lights **lights);
 void					rt_intersect_ray(t_ray ray, t_objects *objs,
 							t_intersect *inter, double *dist_range);
 t_channel				rt_enlightenment(t_channel color, double intensity);
@@ -111,6 +109,9 @@ t_vec					rt_calc_normal(t_intersect *inter, t_ray ray);
 void					rt_load_objects(t_objects **objs, const char *fname);
 void					rt_load_lights(t_lights **lights);
 double					vec_length(t_vec v);
+void					rt_clean(t_rt *rt);
+void					rt_free_lights(t_lights **lights);
+void					rt_free_objects(t_objects **objs);
 
 bool					rt_parse_file(t_rt *rt, const char *fname);
 bool					pr_object(const JSON_Object *j_ob, t_objects *obj);
