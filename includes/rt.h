@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/27 21:08:12 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/28 13:30:02 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,21 @@ void					rt_load_objects(t_objects **objs, const char *fname);
 void					rt_load_lights(t_lights **lights);
 double					vec_length(t_vec v);
 
+bool					rt_parse_file(t_rt *rt, const char *fname);
+bool					pr_object(const JSON_Object *j_ob, t_objects *obj);
+bool					pr_light(const JSON_Object *j_ob, t_lights *light);
+bool					pr_angle(const JSON_Object *j_ob, t_objects *obj);
+bool					pr_light_intensity(const JSON_Object *j_ob, t_lights *light);
+bool					pr_vec_field(const JSON_Object *j_ob, const char *field_name, t_vec *vec);
+bool					pr_channel_color(const JSON_Object *j_ob, t_objects *obj);
+bool					pr_specular(const JSON_Object *j_ob, t_objects *obj);
+bool					pr_reflection(const JSON_Object *j_ob, t_objects *obj);
+bool					pr_radius(const JSON_Object *j_ob, t_objects *obj);
+bool					pr_obj_cone(const JSON_Object *j_ob, t_objects *cone);
+bool					pr_obj_cyl(const JSON_Object *j_ob, t_objects *cyl);
+bool					pr_obj_plane(const JSON_Object *j_ob, t_objects *plane);
+bool					pr_obj_sphere(const JSON_Object *j_ob, t_objects *sphere);
+bool					pr_light_direct(const JSON_Object *j_ob, t_lights *direct);
+bool					pr_light_point(const JSON_Object *j_ob, t_lights *point);
+bool					pr_light_ambient(const JSON_Object *j_ob, t_lights *ambient);
 #endif

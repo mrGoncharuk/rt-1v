@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 17:22:55 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/22 19:06:07 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/08/28 14:05:36 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void	ft_mainloop(t_sdls *app)
 	t_rt rt;
 
 	app->canvas.draw_color = 0xFFFFFF;
-	rt_load_objects(&(rt.objs), NULL);
-	rt_load_lights(&(rt.lights));
+	// rt_load_objects(&(rt.objs), NULL);
+	// rt_load_lights(&(rt.lights));
+	rt_parse_file(&rt, "scene.json");
 	while(app->flags.running)
 	{
 		ft_event(app);
