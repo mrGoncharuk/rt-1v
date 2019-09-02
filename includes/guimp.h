@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 17:36:27 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/27 15:50:06 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/02 20:44:53 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ typedef struct		s_flags
 	bool			running;
 	bool			lmb_down;
 	bool			clear_canvas;
+	bool			state_changed;
+	bool			rot_x;
+	bool			rot_y;
+	bool			rot_z;
 }					t_flags;
 
 typedef struct		s_sdls

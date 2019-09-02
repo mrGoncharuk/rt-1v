@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 15:46:34 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/28 16:49:35 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/02 20:50:43 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,28 @@ bool	parse_array_of_lights(const JSON_Array *j_arr, t_lights **lights)
 	return (true);
 }
 
+bool	pr_camera(const JSON_Object *j_ob, t_camera *camera)
+{
+	JSON_Object	*j_cam;
+
+	if ((j_cam = json_object_get_object(j_ob, "camera")) == NULL)
+	{
+		camera->orient = (t_vec) {0, 0, 0};
+		camera->origin = (t_vec) {0, 0, 0};
+	}
+	else
+	{
+		if (!pr_vec_field(j_cam, "orient", &(camera->orient)))
+			return (false);
+		if (!pr_vec_field(j_cam, "origin", &(camera->origin)))
+			return (false);
+	}
+	camera->orient[0] = DEG_TO_RAD(camera->orient[0]);
+	camera->orient[1] = DEG_TO_RAD(camera->orient[1]);
+	camera->orient[2] = DEG_TO_RAD(camera->orient[2]);
+	return (true);
+}
+
 bool	rt_parse_file(t_rt *rt, const char *fname)
 {
 	JSON_Value	*json_val;
@@ -103,10 +125,14 @@ bool	rt_parse_file(t_rt *rt, const char *fname)
 	}
 	if (!parse_array_of_lights(json_arr, &(rt->lights)))
 	{
-		ft_putstr("Error while parsing objects");
+		ft_putstr("Error while parsing lights");
+		return (false);
+	}
+	if (!(pr_camera(json_objs, &(rt->camera))))
+	{
+		ft_putstr("Error while parsing camera");
 		return (false);
 	}
 	ft_putstr("All good so far\n");
-	//json_value_free(json_val);
 	return (true);
 }

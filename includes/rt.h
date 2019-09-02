@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/28 16:49:53 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/02 20:49:34 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define DIST_CAM_PP 1		/* projection_plane_z */
 # define RECURTION_DEPTH 3
 # define DEG_TO_RAD(angle) (M_PI * angle) / 180
+# define ROT_POWER DEG_TO_RAD(5);
 
 typedef double			t_vec __attribute__((__ext_vector_type__(3)));
 
@@ -75,10 +76,20 @@ typedef struct			s_intersect
 	t_vec				normal;
 }						t_intersect;
 
+typedef struct			s_camera
+{
+	t_vec				origin;
+	t_vec				orient;
+	double				rot_x[3][3];
+	double				rot_y[3][3];
+	double				rot_z[3][3];
+}						t_camera;
+
 typedef struct			s_rt
 {
 	t_objects			*objs;
 	t_lights			*lights;
+	t_camera			camera;
 }						t_rt;
 
 double					dot(t_vec a, t_vec b);
@@ -106,8 +117,6 @@ t_channel				rt_calc_reflected_color(t_channel local_color,
 							t_channel reflected_color, double r);
 t_vec					rt_reflect_ray(t_vec normal, t_vec ray_dir);
 t_vec					rt_calc_normal(t_intersect *inter, t_ray ray);
-void					rt_load_objects(t_objects **objs, const char *fname);
-void					rt_load_lights(t_lights **lights);
 double					vec_length(t_vec v);
 void					rt_clean(t_rt *rt);
 void					rt_free_lights(t_lights **lights);
@@ -115,7 +124,14 @@ void					rt_free_objects(t_objects **objs);
 
 bool					rt_parse_file(t_rt *rt, const char *fname);
 bool					pr_object(const JSON_Object *j_ob, t_objects *obj);
+bool					pr_obj_cone(const JSON_Object *j_ob, t_objects *cone);
+bool					pr_obj_cyl(const JSON_Object *j_ob, t_objects *cyl);
+bool					pr_obj_plane(const JSON_Object *j_ob, t_objects *plane);
+bool					pr_obj_sphere(const JSON_Object *j_ob, t_objects *sphere);
 bool					pr_light(const JSON_Object *j_ob, t_lights *light);
+bool					pr_light_direct(const JSON_Object *j_ob, t_lights *direct);
+bool					pr_light_point(const JSON_Object *j_ob, t_lights *point);
+bool					pr_light_ambient(const JSON_Object *j_ob, t_lights *ambient);
 bool					pr_angle(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_light_intensity(const JSON_Object *j_ob, t_lights *light);
 bool					pr_vec_field(const JSON_Object *j_ob, const char *field_name, t_vec *vec);
@@ -123,11 +139,11 @@ bool					pr_channel_color(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_specular(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_reflection(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_radius(const JSON_Object *j_ob, t_objects *obj);
-bool					pr_obj_cone(const JSON_Object *j_ob, t_objects *cone);
-bool					pr_obj_cyl(const JSON_Object *j_ob, t_objects *cyl);
-bool					pr_obj_plane(const JSON_Object *j_ob, t_objects *plane);
-bool					pr_obj_sphere(const JSON_Object *j_ob, t_objects *sphere);
-bool					pr_light_direct(const JSON_Object *j_ob, t_lights *direct);
-bool					pr_light_point(const JSON_Object *j_ob, t_lights *point);
-bool					pr_light_ambient(const JSON_Object *j_ob, t_lights *ambient);
+
+void					rt_init_rot_matrix(t_camera *cam);
+t_vec					rt_rotate_camera(t_camera *camera, t_vec ray_dir);
+void					rt_recalc_x_mtrx(double mtrx[3][3], double rad);
+void					rt_recalc_y_mtrx(double mtrx[3][3], double rad);
+void					rt_recalc_z_mtrx(double mtrx[3][3], double rad);
+
 #endif

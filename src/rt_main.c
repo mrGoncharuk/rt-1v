@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:24:31 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/27 20:52:36 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/02 21:02:30 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void		rt_mainloop(t_rt *rt, t_canvas *cn)
 
 	dist_range[0] = 1;
 	dist_range[1] = DBL_MAX;
-	ray.origin = (t_vec) {0, 0, -3};
+	ray.origin = rt->camera.origin;
 	x = -CW / 2 - 1;
 	while (++x < CW / 2)
 	{
@@ -94,6 +94,7 @@ void		rt_mainloop(t_rt *rt, t_canvas *cn)
 		while (++y < CH / 2)
 		{
 			ray.direction = rt_canvas_to_viewport(x, y);
+			ray.direction = rt_rotate_camera(&(rt->camera), ray.direction);
 			color = rt_trace_ray(ray, rt, dist_range, RECURTION_DEPTH);
 			ft_pp_img(cn, x + CW / 2, CH / 2 - y,
 				rt_channel_color_to_uint(color));
