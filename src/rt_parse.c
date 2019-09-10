@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 15:46:34 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/02 20:50:43 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/10 17:54:54 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,10 @@ bool	pr_camera(const JSON_Object *j_ob, t_camera *camera)
 	return (true);
 }
 
-bool	rt_parse_file(t_rt *rt, const char *fname)
+bool	rt_parse_file_(t_rt *rt, JSON_Object *json_objs)
 {
-	JSON_Value	*json_val;
-	JSON_Object *json_objs;
 	JSON_Array	*json_arr;
 
-	if ((json_val = json_parse_file(fname)) == NULL)
-	{
-		ft_putstr("Error while parsing json\n");
-		return (false);
-	}
-	if ((json_objs = json_value_get_object(json_val)) == NULL)
-	{
-		ft_putstr("Error while getting object from value\n");
-		return (false);
-	}
 	if ((json_arr = json_object_get_array(json_objs, "objects")) == NULL)
 	{
 		ft_putstr("Error while getting array of scene objects\n");
@@ -125,9 +113,29 @@ bool	rt_parse_file(t_rt *rt, const char *fname)
 	}
 	if (!parse_array_of_lights(json_arr, &(rt->lights)))
 	{
-		ft_putstr("Error while parsing lights");
+		ft_putstr("Error while parsing lights\n");
 		return (false);
 	}
+	return (true);
+}
+
+bool	rt_parse_file(t_rt *rt, const char *fname)
+{
+	JSON_Value	*json_val;
+	JSON_Object *json_objs;
+
+	if ((json_val = json_parse_file(fname)) == NULL)
+	{
+		ft_putstr("Error while parsing json\n");
+		return (false);
+	}
+	if ((json_objs = json_value_get_object(json_val)) == NULL)
+	{
+		ft_putstr("Error while getting object from value\n");
+		return (false);
+	}
+	if (!rt_parse_file_(rt, json_objs))
+		return (false);
 	if (!(pr_camera(json_objs, &(rt->camera))))
 	{
 		ft_putstr("Error while parsing camera");

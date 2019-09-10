@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/02 20:49:34 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/10 17:58:31 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define DIST_CAM_PP 1		/* projection_plane_z */
 # define RECURTION_DEPTH 3
 # define DEG_TO_RAD(angle) (M_PI * angle) / 180
-# define ROT_POWER DEG_TO_RAD(5);
+# define ROT_POWER DEG_TO_RAD(15);
 
 typedef double			t_vec __attribute__((__ext_vector_type__(3)));
 

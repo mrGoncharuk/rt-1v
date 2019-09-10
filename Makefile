@@ -6,7 +6,7 @@
 #    By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/15 19:28:21 by mhonchar          #+#    #+#              #
-#    Updated: 2019/09/10 17:36:48 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/09/10 17:56:13 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,20 +50,14 @@ SRC_FILES =		main.c \
 				pr_objs.c \
 				parson.c
 				
-
-				
 HEADERS = 		$(INC_DIR)guimp.h \
 				$(INC_DIR)canvas.h \
 				$(LIBUI_DIR)includes/libui.h 
-				#libsdl/include/SDL2/SDL.h \
-				libsdl_image/include/SDL2/SDL_image.h \
-				#libsdl_ttf/include/SDL2/SDL_ttf.h 
-				# libsdl_mixer/include/SDL2/SDL_mixer.h
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
-CC = gcc -g -fsanitize=address
+CC = gcc -g -fsanitize=address -flto -Ofast -pipe
 CFLAGS = -Wall -Werror -Wextra
 INC = 	-I $(INC_DIR) \
 		-I libui/includes/ \
@@ -71,10 +65,6 @@ INC = 	-I $(INC_DIR) \
 		-I $(CURDIR)/$(FRM_DIR)/SDL2.framework/⁨Versions⁩/A/Headers \
 		-I $(CURDIR)/$(FRM_DIR)/SDL2_image.framework/Versions⁩/A/Headers \
 		-F $(CURDIR)/$(FRM_DIR)
-		#-I libsdl/include/SDL2/ \
-		-I libsdl_image/include/SDL2/ \
-		#-I libsdl_ttf/include/SDL2/ 
-		# -I libsdl_mixer/include/SDL2/
 
 
 SDL_LNK	= -F $(CURDIR)/$(FRM_DIR) \

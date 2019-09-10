@@ -6,12 +6,11 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:24:31 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/02 21:02:30 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/10 17:41:12 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-#include <stdio.h>
 
 void		rt_intersect_ray(t_ray ray, t_objects *objs, t_intersect *inter,
 				double *dist_range)
