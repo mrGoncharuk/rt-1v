@@ -6,6 +6,11 @@
 		"cmath": "c",
 		"guimp.h": "c",
 		"parson.h": "c",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"sdl.h": "c",
+		"canvas.h": "c",
+		"libui.h": "c",
+		"error_handler.h": "c",
+		"sdl_image.h": "c"
 	}
 }

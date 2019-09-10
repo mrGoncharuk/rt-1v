@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/02 19:51:00 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/02 20:58:00 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/02 21:08:28 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ t_vec	rt_rotate_camera(t_camera *camera, t_vec ray_dir)
 	{
 		j = -1;
 		while (++j < 3)
-			res[i] += (ray_dir[j] * (camera->rot_x[i][j] + camera->rot_y[i][j] + camera->rot_x[i][j]));
+			res[i] += (ray_dir[j] * (camera->rot_x[i][j] +
+				camera->rot_y[i][j] + camera->rot_x[i][j]));
 	}
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:09:21 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/14 16:55:40 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/10 17:37:48 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define LIBUI_H
 
 # include <stdbool.h>
-# include "SDL.h"
-# include "SDL_image.h"
+# include "SDL2/SDL.h"
+# include "SDL2_image/SDL_image.h"
 # include "../libft/libft.h"
 # include "error_handler.h"
 # include "button.h"

@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 19:16:47 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/19 20:18:53 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/10 17:03:13 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void		ft_sdl_init(t_sdls *app)
 
 	cn_create_canvas(&(app->canvas));
 	SDL_GetWindowPosition(app->canvas.wn.win, &x, &y);
-	tb_create_toolbox(&(app->toolbox), x - CN_WIDTH / 2 - TB_WIDTH, y - CN_HEIGHT / 2 - TB_HEIGHT);
 	app->flags.running = true;
     //printf("sprite: %p\n", win->buttons->sprite);
 }

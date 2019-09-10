@@ -6,7 +6,7 @@
 #    By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/24 18:09:23 by mhonchar          #+#    #+#              #
-#    Updated: 2019/08/14 17:32:25 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/09/10 17:32:42 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = libui.a
 LIBFT_DIR = libft/
 
 LIBFT = libft.a
-
+FRM_DIR = frameworks
 #################################################
 SRC_DIR = src/
 
@@ -38,9 +38,9 @@ INCLUDES = $(addprefix $(INC_DIR), $(HEADERS))
 
 INC =	-I $(INC_DIR) \
 		-I $(LIBFT_DIR) \
-		-I libsdl/include/SDL2/ \
-		-I libsdl_image/include/SDL2/ \
-		-I libsdl_ttf/include/SDL2/ 
+		-I $(FRM_DIR)/SDL2.framework/Versions/A/Headers \
+		-I $(FRM_DIR)/SDL2_image.framework/Versions/A/Headers \
+		-F $(FRM_DIR)
 
 #################################################
 OBJ_DIR = obj/
@@ -50,6 +50,10 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 OBJ_FT = libft/*.o
 #################################################
 FLAGS = -Wall -Werror -Wextra -c
+
+
+SDL_INC	= 
+
 
 
 CC = gcc
@@ -64,7 +68,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT_DIR) $(INCLUDES) $(OBJ_DIR) $(OBJ)
 	@make -C $(LIBFT_DIR) 
-	@ar rc $(NAME) $(OBJ) $(OBJ_FT)
+	@ar rc $(NAME) $(OBJ) $(OBJ_FT) 
 
 $(OBJ_DIR):
 	@mkdir obj
