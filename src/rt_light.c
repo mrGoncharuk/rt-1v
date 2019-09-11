@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 20:48:06 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/27 20:08:25 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/11 20:58:23 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ bool		rt_point_in_shadow(t_objects *objs, t_vec point, t_vec light)
 	inter.closest_obj = NULL;
 	dist_range[0] = 0.001;
 	dist_range[1] = DBL_MAX;
-	rt_intersect_ray(ray, objs, &inter, dist_range);
-	if (inter.closest_obj == NULL)
-		return (false);
-	else
-		return (true);
+	while (objs && (inter.closest_obj == NULL))
+	{
+		rt_intersect_ray(ray, objs, &inter, dist_range);
+		objs = objs->next;
+	}
+	return (inter.closest_obj != NULL);
+
 }
 
 double		rt_calc_intesity(t_lights *light, t_ray r, t_vec l, t_intersect *in)

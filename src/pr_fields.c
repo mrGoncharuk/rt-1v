@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 12:02:08 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 18:08:29 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/11 20:14:03 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,21 +87,21 @@ bool	pr_specular(const JSON_Object *j_ob, t_objects *obj)
 }
 
 /*
-**	Fail when: number out of range [0; 1]
-**	Success values: number in range of [0; 1];
+**	Fail when: number out of range [-inf; 1]
+**	Success values: number in range of [-inf; 1];
 ** 	there is no number value at key 'reflection',
-**	in this case reflection value of object is 0;
+**	in this case reflection value of object is -1;
 */
 
 bool	pr_reflection(const JSON_Object *j_ob, t_objects *obj)
 {
 	if (!json_object_has_value_of_type(j_ob, "reflection", JSONNumber))
 	{
-		obj->reflection = 0;
+		obj->reflection = -1;
 		return (true);
 	}
 	obj->reflection = json_object_get_number(j_ob, "reflection");
-	if (obj->reflection > 1 || obj->reflection < 0)
+	if (obj->reflection > 1)
 		return (false);
 	return (true);
 }
