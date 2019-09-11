@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:24:31 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/10 17:41:12 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/11 19:51:44 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ void		rt_mainloop(t_rt *rt, t_canvas *cn)
 	dist_range[1] = DBL_MAX;
 	ray.origin = rt->camera.origin;
 	x = -CW / 2 - 1;
-	while (++x < CW / 2)
+	while (++x <= CW / 2)
 	{
 		y = -CH / 2 - 1;
-		while (++y < CH / 2)
+		while (++y <= CH / 2)
 		{
 			ray.direction = rt_canvas_to_viewport(x, y);
 			ray.direction = rt_rotate_camera(&(rt->camera), ray.direction);

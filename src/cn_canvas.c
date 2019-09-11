@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 16:59:46 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/21 17:33:42 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/11 18:00:03 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,18 @@ static int	cn_create(t_canvas *cn, SDL_Renderer *r, const int w, const int h)
 		free(cn->pixels);
 		return (-1);
 	}
-	//ft_memset(cn->pixels, 255, w * h * sizeof(Uint32));
 	cn->draw_color = 0;
 	return (0);
 }
 
 void		cn_create_canvas(t_canvas *cn)
 {
-	wn_init(&(cn->wn), "GUImp",(SDL_Rect) {SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,CN_WIDTH, CN_HEIGHT},
-		SDL_WINDOW_SHOWN |SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	wn_init(&(cn->wn), "GUImp", (SDL_Rect) {SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED, CN_WIDTH, CN_HEIGHT},
+		SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	if (cn_create(cn, cn->wn.renderer, CN_WIDTH, CN_HEIGHT) < 0)
 		err_sdl(ERR_WIN_CREATE);
 }
-
-// void		cn_set_mp(SDL_Point point)
-// {
-// 	static SDL_Point	new_point;
-// 	static SDL_Point	old_point;
-
-// 	old_point = new_point;
-// 	new_point = point;
-// 	return (new_point);
-// }
 
 void		cn_destroy_canvas(t_canvas *canvas)
 {
@@ -60,5 +49,3 @@ void		cn_destroy_canvas(t_canvas *canvas)
 	SDL_DestroyTexture(canvas->field);
 	wn_destroy(&(canvas->wn));
 }
-
-

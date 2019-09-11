@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/10 17:58:31 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/11 18:35:35 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 # define RT_H
 
 # include <float.h>
-
-# include "guimp.h"
+# include <stdbool.h>
+# include "libft.h"
+# include "canvas.h"
+# include "window.h"
+# include "error_handler.h"
 # include "parson.h"
+# include "SDL2/SDL.h"
+# include "SDL2_image/SDL_image.h"
 # define CW CN_WIDTH
 # define CH CN_HEIGHT
 # define VIEWPORT_WIDTH 1
 # define VIEWPORT_HEIGHT 1
-# define DIST_CAM_PP 1		/* projection_plane_z */
+# define DIST_CAM_PP 1
 # define RECURTION_DEPTH 3
 # define DEG_TO_RAD(angle) (M_PI * angle) / 180
 # define ROT_POWER DEG_TO_RAD(15);
@@ -92,6 +97,27 @@ typedef struct			s_rt
 	t_camera			camera;
 }						t_rt;
 
+typedef struct			s_flags
+{
+	bool				running;
+	bool				lmb_down;
+	bool				clear_canvas;
+	bool				state_changed;
+	bool				rot_x;
+	bool				rot_y;
+	bool				rot_z;
+}						t_flags;
+
+typedef struct			s_sdls
+{
+	t_canvas			canvas;
+	t_flags				flags;
+}						t_sdls;
+
+void					ft_sdl_init(t_sdls *app);
+void					ft_sdl_clean(t_sdls *app);
+void					ft_mainloop(t_sdls *app);
+
 double					dot(t_vec a, t_vec b);
 void					rt_intersect_ray_sphere(t_ray ray, t_objects *sphere,
 							t_intersect *inter, double *dist_range);
@@ -127,15 +153,21 @@ bool					pr_object(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_obj_cone(const JSON_Object *j_ob, t_objects *cone);
 bool					pr_obj_cyl(const JSON_Object *j_ob, t_objects *cyl);
 bool					pr_obj_plane(const JSON_Object *j_ob, t_objects *plane);
-bool					pr_obj_sphere(const JSON_Object *j_ob, t_objects *sphere);
+bool					pr_obj_sphere(const JSON_Object *j_ob,
+										t_objects *sphere);
 bool					pr_light(const JSON_Object *j_ob, t_lights *light);
-bool					pr_light_direct(const JSON_Object *j_ob, t_lights *direct);
-bool					pr_light_point(const JSON_Object *j_ob, t_lights *point);
-bool					pr_light_ambient(const JSON_Object *j_ob, t_lights *ambient);
+bool					pr_light_direct(const JSON_Object *j_ob,
+										t_lights *direct);
+bool					pr_light_point(const JSON_Object *j_ob,
+										t_lights *point);
+bool					pr_light_ambient(const JSON_Object *j_ob,
+										t_lights *ambient);
 bool					pr_angle(const JSON_Object *j_ob, t_objects *obj);
-bool					pr_light_intensity(const JSON_Object *j_ob, t_lights *light);
-bool					pr_vec_field(const JSON_Object *j_ob, const char *field_name, t_vec *vec);
-bool					pr_channel_color(const JSON_Object *j_ob, t_objects *obj);
+bool					pr_light_intensity(const JSON_Object *j_ob,
+											t_lights *light);
+bool					pr_vec_field(const JSON_Object *j_ob,
+									const char *field_name, t_vec *vec);
+bool					pr_channel_color(const JSON_Object *j_ob, t_objects *o);
 bool					pr_specular(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_reflection(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_radius(const JSON_Object *j_ob, t_objects *obj);

@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/02 19:51:00 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/02 21:08:28 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/11 18:01:51 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,12 @@ void	rt_init_rot_matrix(t_camera *cam)
 t_vec	rt_rotate_camera(t_camera *camera, t_vec ray_dir)
 {
 	t_vec	res;
-	int		i;
-	int		j;
+	t_vec	tmp;
 
-	res = 0;
-	i = -1;
-	while (++i < 3)
-	{
-		j = -1;
-		while (++j < 3)
-			res[i] += (ray_dir[j] * (camera->rot_x[i][j] +
-				camera->rot_y[i][j] + camera->rot_x[i][j]));
-	}
+	tmp = ray_dir;
+	res[0] = tmp[0];
+	res[1] = tmp[1] * cos(camera->orient[0]) + tmp[2] * sin(camera->orient[0]);
+	res[2] = -tmp[1] * sin(camera->orient[0]) + tmp[2] * cos(camera->orient[0]);
 	return (res);
 }
 

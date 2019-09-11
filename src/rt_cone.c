@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/26 16:53:54 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/28 16:40:51 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/11 17:55:46 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void			rt_intersect_ray_cone(t_ray ray, t_objects *cone,
 
 	oc = ray.origin - cone->centre;
 	coeff[0] = dot(ray.direction, ray.direction) - cone->k *
-		pow(dot(ray.direction, cone->orient), 2);
+				pow(dot(ray.direction, cone->orient), 2);
 	coeff[1] = 2 * (dot(ray.direction, oc) - cone->k *
-		dot(ray.direction, cone->orient) * dot(oc, cone->orient));
+				dot(ray.direction, cone->orient) * dot(oc, cone->orient));
 	coeff[2] = dot(oc, oc) - cone->k * pow(dot(oc, cone->orient), 2);
 	discriminant = coeff.y * coeff.y - 4 * coeff.x * coeff.z;
-	if (discriminant > 0)
+	if (discriminant >= 0)
 	{
 		roots[0] = (-coeff.y + sqrt(discriminant)) / (2 * coeff.x);
 		roots[1] = (-coeff.y - sqrt(discriminant)) / (2 * coeff.x);

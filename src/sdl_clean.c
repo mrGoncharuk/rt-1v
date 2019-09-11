@@ -6,14 +6,14 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 16:51:23 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/10 17:38:58 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/11 17:43:08 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "guimp.h"
+#include "rt.h"
 
-void		ft_sdl_clean(t_sdls *app)
+void	ft_sdl_clean(t_sdls *app)
 {
-    cn_destroy_canvas(&(app->canvas));
-    SDL_Quit();
+	cn_destroy_canvas(&(app->canvas));
+	SDL_Quit();
 }

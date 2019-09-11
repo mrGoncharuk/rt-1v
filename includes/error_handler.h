@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sdl_init.c                                         :+:      :+:    :+:   */
+/*   error_handler.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/21 19:16:47 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 17:55:52 by mhonchar         ###   ########.fr       */
+/*   Created: 2019/07/21 19:22:10 by mhonchar          #+#    #+#             */
+/*   Updated: 2019/09/11 18:36:53 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#ifndef ERROR_HANDLER_H
+# define ERROR_HANDLER_H
 
-void		ft_sdl_init(t_sdls *app)
-{
-	int		x;
-	int		y;
+enum	e_err_sdl {ERR_INIT,
+	ERR_WIN_CREATE,
+	ERR_RENDERER_CREATE,
+	ERR_IMG_LOAD,
+	ERR_CREATE_TEX_FROM_SURF};
 
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-		err_sdl(ERR_INIT);
-	cn_create_canvas(&(app->canvas));
-	SDL_GetWindowPosition(app->canvas.wn.win, &x, &y);
-	app->flags.running = true;
-	app->flags.rot_x = false;
-	app->flags.rot_y = false;
-	app->flags.state_changed = false;
-}
+int		err_sdl(int err_code);
+int		err_sdl_load(int err_code, const char *path);
+
+#endif

@@ -6,32 +6,32 @@
 #    By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/15 19:28:21 by mhonchar          #+#    #+#              #
-#    Updated: 2019/09/10 17:56:13 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/09/11 18:51:14 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = RTv1
-LIBUI_NAME = libui.a
+LIBFT_NAME = libft.a
+LIBPARSON_NAME = libparson.a
 SRC_DIR = src/
 OBJ_DIR = obj/
 INC_DIR = includes/
-LIBUI_DIR = libui/
 FRM_DIR = frameworks
+LIBFT_DIR = libft/
+LIBPARSON_DIR = libparson/
+LIB = 	$(addprefix $(LIBFT_DIR), $(LIBFT_NAME)) \
+		$(addprefix $(LIBPARSON_DIR), $(LIBPARSON_NAME)) 
 
-LIB = 	$(addprefix $(LIBUI_DIR), $(LIBUI_NAME)) 
-		#-L./libsdl/lib -lSDL2 \
-		-L./libsdl_image/lib -lSDL2_image \
-		#-L./libsdl_ttf/lib -lSDL2_ttf 
-		# -L./libsdl_mixer/lib -lSDL2_mixer
 
 SRC_FILES =		main.c \
+				error_handler.c \
+				window.c \
 				sdl_init.c \
 				sdl_clean.c \
 				cn_canvas.c \
 				cn_mainloop.c \
 				draw_line.c \
 				main_loop.c \
-				bt_clear_canvas.c \
 				rt_main.c \
 				rt_color.c \
 				rt_light.c \
@@ -47,12 +47,12 @@ SRC_FILES =		main.c \
 				pr_fields.c \
 				pr_fields2.c \
 				pr_lights.c \
-				pr_objs.c \
-				parson.c
+				pr_objs.c
 				
-HEADERS = 		$(INC_DIR)guimp.h \
-				$(INC_DIR)canvas.h \
-				$(LIBUI_DIR)includes/libui.h 
+HEADERS = 		$(INC_DIR)canvas.h \
+				$(INC_DIR)error_handler.h \
+				$(INC_DIR)window.h \
+				$(LIBFT_DIR)/libft.h 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
@@ -60,7 +60,7 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 CC = gcc -g -fsanitize=address -flto -Ofast -pipe
 CFLAGS = -Wall -Werror -Wextra
 INC = 	-I $(INC_DIR) \
-		-I libui/includes/ \
+		-I libft \
 		-I libparson \
 		-I $(CURDIR)/$(FRM_DIR)/SDL2.framework/⁨Versions⁩/A/Headers \
 		-I $(CURDIR)/$(FRM_DIR)/SDL2_image.framework/Versions⁩/A/Headers \
@@ -79,12 +79,15 @@ C_NONE = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(LIBUI_NAME) $(HEADERS) $(OBJ_DIR) $(OBJ)
+$(NAME): $(LIBFT_NAME) $(LIBPARSON_NAME) $(HEADERS) $(OBJ_DIR) $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIB) $(INC) $(SDL_LNK) -o $(NAME)
 	@printf "$(C_MAGENTA)$(NAME):$(C_NONE) %-25s$(C_GREEN)[done]$(C_NONE)\n" $@
 
-$(LIBUI_NAME):
-	@make -C $(LIBUI_DIR)
+$(LIBFT_NAME):
+	@make -C $(LIBFT_DIR)
+
+$(LIBPARSON_NAME):
+	@make -C $(LIBPARSON_DIR)
 
 $(OBJ_DIR):
 	@mkdir obj
@@ -96,12 +99,14 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS)
 
 clean:
 	@rm -rf $(OBJ_DIR)*
-	@make clean -C $(LIBUI_DIR)
+	@make clean -C $(LIBFT_DIR)
+	@make clean -C $(LIBPARSON_DIR)
 	@printf "$(C_MAGENTA)$(NAME):$(C_NONE) %-25s$(C_RED)[done]$(C_NONE)\n" $@
 
 fclean: clean
 	@rm -rf $(NAME)
-	@make fclean -C $(LIBUI_DIR)
+	@make fclean -C $(LIBFT_DIR)
+	@make fclean -C $(LIBPARSON_DIR)
 	@printf "$(C_MAGENTA)$(NAME):$(C_NONE) %-25s$(C_RED)[done]$(C_NONE)\n" $@
 
 re: fclean all

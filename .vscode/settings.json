@@ -11,6 +11,8 @@
 		"canvas.h": "c",
 		"libui.h": "c",
 		"error_handler.h": "c",
-		"sdl_image.h": "c"
+		"sdl_image.h": "c",
+		"window.h": "c",
+		"ios": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 12:02:08 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/28 14:00:08 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/11 18:08:29 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ bool	pr_specular(const JSON_Object *j_ob, t_objects *obj)
 }
 
 /*
-**	Fail when: there is no number value at key 'reflection';
-**	number out of range [0; 1]
+**	Fail when: number out of range [0; 1]
 **	Success values: number in range of [0; 1];
 ** 	there is no number value at key 'reflection',
 **	in this case reflection value of object is 0;

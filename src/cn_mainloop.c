@@ -6,12 +6,11 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 19:36:54 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/02 20:22:48 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/11 17:53:52 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "canvas.h"
-#include "guimp.h"
+#include "rt.h"
 
 void		cn_event_handle(t_canvas *cn, SDL_Event *e, t_flags *f)
 {
@@ -42,8 +41,6 @@ void		cn_event_handle(t_canvas *cn, SDL_Event *e, t_flags *f)
 void		cn_update(t_canvas *cn)
 {
 	SDL_UpdateTexture(cn->field, NULL, cn->pixels, cn->w * sizeof(Uint32));
-	// ft_draw_line(cn, cn->mp.temp, cn->mp.motion);
-	// cn->mp.temp = cn->mp.motion;
 }
 
 void		cn_render(t_canvas *cn)
