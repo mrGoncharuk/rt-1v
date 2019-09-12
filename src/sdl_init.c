@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 19:16:47 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 17:55:52 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 19:15:33 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void		ft_sdl_init(t_sdls *app)
 	app->flags.running = true;
 	app->flags.rot_x = false;
 	app->flags.rot_y = false;
-	app->flags.state_changed = false;
+	app->flags.state_changed = true;
 }

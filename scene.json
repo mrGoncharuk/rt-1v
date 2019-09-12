@@ -1,42 +1,28 @@
 {
 	"objects": [{
+		"type": "cone",
+		"centre": [-2, 2, 10],
+		"orient": [0, 1, 0],
+		"color": [56, 212, 120],
+		"radius": 0.6,
+		"angle": 45,
+		"reflection": -1,
+		"specular": 100
+	} ,{
 		"type": "sphere",
-		"centre": [1.0, 1.0, 5.0],
+		"centre": [3.0, 1.0, 5.0],
 		"orient": [0.0, 0.0, 0.0],
 		"color": [255, 0, 0],
 		"specular": 500.0,
 		"reflection": 0.2,
 		"radius": 1.5
-	},{
-		"type": "plane",
-		"centre": [0, 0, 25],
-		"orient": [0, 0, 1],
-		"color": [100, 100, 100],
-		"specular": 350,
-		"reflection": -1
-	}, {
-		"type": "cylinder",
-		"centre": [-2, 2, 10],
-		"orient": [0, 1, 0],
-		"color": [56, 212, 120],
-		"radius": 0.6,
-		"reflection": 0.9,
-		"specular": 100
-	} ],
+	}],
 	"lights": [{
 		"type": "ambient",
 		"intensity": 0.3
 	}, {
 		"type": "point",
-		"position": [6.0, 6.0, -2.0],
+		"position": [2, 2, -5],
 		"intensity": 0.4
-	}, {
-		"type": "direct",
-		"direction": [1, 4, 4],
-		"intensity": 0.3
-	} ],
-	"camera": {
-		"orient": [0, 0, 0],
-		"origin": [0, 0, -10]
-	}
+	}]
 }

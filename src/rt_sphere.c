@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 15:17:35 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/08/26 18:03:37 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 19:08:38 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@ t_vec			rt_calc_sphere_normal(t_intersect *inter)
 	return (normal / vec_length(normal));
 }
 
-static double	rt_select_dist(double *roots, double *dist_range)
+double			rt_select_dist(double *roots, double *dist_range)
 {
-	if (roots[1] < dist_range[0] && roots[0] < dist_range[0])
-		return (DBL_MAX);
-	if (roots[1] < roots[0])
-		return (roots[1]);
-	else
-		return (roots[0]);
+	double	best;
+
+	best = DBL_MAX;
+	if (roots[0] > dist_range[0] && roots[0] < dist_range[1])
+		best = roots[0];
+	if (roots[1] > dist_range[0] && roots[1] < dist_range[1] && roots[1] < best)
+		best = roots[1];
+	return (best);
 }
 
 void			rt_intersect_ray_sphere(t_ray ray, t_objects *sphere,
@@ -44,7 +46,7 @@ void			rt_intersect_ray_sphere(t_ray ray, t_objects *sphere,
 	coeff.y = 2 * dot(oc, ray.direction);
 	coeff.z = dot(oc, oc) - sphere->radius * sphere->radius;
 	discriminant = coeff.y * coeff.y - 4 * coeff.x * coeff.z;
-	if (discriminant > 0)
+	if (discriminant >= 0)
 	{
 		roots[0] = (-coeff.y + sqrt(discriminant)) / (2 * coeff.x);
 		roots[1] = (-coeff.y - sqrt(discriminant)) / (2 * coeff.x);

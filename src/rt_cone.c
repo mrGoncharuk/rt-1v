@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/26 16:53:54 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 17:55:46 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 19:04:28 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,6 @@ t_vec			rt_calc_cone_normal(t_intersect *i, t_ray ray)
 	normal = i->hit - i->closest_obj->centre - i->closest_obj->k *
 		i->closest_obj->orient * m;
 	return (normal / vec_length(normal));
-}
-
-static double	rt_select_dist(double *roots, double *dist_range)
-{
-	if (roots[1] < dist_range[0] && roots[0] < dist_range[0])
-		return (DBL_MAX);
-	if (roots[1] < roots[0])
-		return (roots[1]);
-	else
-		return (roots[0]);
 }
 
 void			rt_intersect_ray_cone(t_ray ray, t_objects *cone,

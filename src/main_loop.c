@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 17:22:55 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 18:01:34 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 19:15:42 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,12 @@ void	ft_update(t_sdls *app, t_rt *rt)
 	if (app->flags.rot_x)
 	{
 		rt->camera.orient[0] += ROT_POWER;
-		rt_recalc_x_mtrx(rt->camera.rot_x, rt->camera.orient[0]);
 		app->flags.rot_x = false;
 		app->flags.state_changed = 1;
 	}
 	if (app->flags.rot_y)
 	{
 		rt->camera.orient[1] += ROT_POWER;
-		rt_recalc_y_mtrx(rt->camera.rot_y, rt->camera.orient[1]);
 		app->flags.rot_y = false;
 		app->flags.state_changed = 1;
 	}
@@ -59,10 +57,8 @@ void	ft_mainloop(t_sdls *app)
 {
 	t_rt rt;
 
-	app->canvas.draw_color = 0xFFFFFF;
-	rt_parse_file(&rt, "scene.json");
-	rt_init_rot_matrix(&(rt.camera));
-	app->flags.state_changed = 1;
+	if (rt_parse_file(&rt, "scene.json") == false)
+		return ;
 	while (app->flags.running)
 	{
 		ft_event(app);

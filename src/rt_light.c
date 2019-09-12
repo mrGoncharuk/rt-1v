@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 20:48:06 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 20:58:23 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 19:13:09 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ double		rt_calc_specularity(t_vec normal, t_vec light, t_vec v, double spec)
 	return (i);
 }
 
-bool		rt_point_in_shadow(t_objects *objs, t_vec point, t_vec light)
+bool		rt_point_in_shadow(t_objects *objs, t_vec point, t_vec light,
+								int l_type)
 {
 	double		dist_range[2];
 	t_intersect	inter;
@@ -45,15 +46,16 @@ bool		rt_point_in_shadow(t_objects *objs, t_vec point, t_vec light)
 	ray.direction = light;
 	inter.dist = DBL_MAX;
 	inter.closest_obj = NULL;
-	dist_range[0] = 0.001;
-	dist_range[1] = DBL_MAX;
-	while (objs && (inter.closest_obj == NULL))
+	dist_range[0] = 0.0001;
+	dist_range[1] = (l_type == LT_POINT) ? 1 : DBL_MAX;
+	while (objs)
 	{
 		rt_intersect_ray(ray, objs, &inter, dist_range);
+		if (inter.closest_obj != NULL)
+			return (true);
 		objs = objs->next;
 	}
-	return (inter.closest_obj != NULL);
-
+	return (false);
 }
 
 double		rt_calc_intesity(t_lights *light, t_ray r, t_vec l, t_intersect *in)
@@ -89,7 +91,8 @@ double		rt_compute_lighting(t_objects *objs, t_lights *lights,
 				l = lights->position - inter->hit;
 			else
 				l = lights->direction;
-			if (rt_point_in_shadow(objs, inter->hit, l))
+			l = l / vec_length(l);
+			if (rt_point_in_shadow(objs, inter->hit, l, lights->type))
 			{
 				lights = lights->next;
 				continue;

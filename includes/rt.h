@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 18:35:35 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 18:25:39 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ Uint32					rt_channel_color_to_uint(t_channel color);
 void					rt_mainloop(t_rt *rt, t_canvas *cn);
 void					rt_intersect_ray(t_ray ray, t_objects *objs,
 							t_intersect *inter, double *dist_range);
+double					rt_select_dist(double *roots, double *dist_range);
 t_channel				rt_enlightenment(t_channel color, double intensity);
 t_vec					rt_canvas_to_viewport(int x, int y);
 double					rt_compute_lighting(t_objects *objs,
@@ -172,10 +173,6 @@ bool					pr_specular(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_reflection(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_radius(const JSON_Object *j_ob, t_objects *obj);
 
-void					rt_init_rot_matrix(t_camera *cam);
 t_vec					rt_rotate_camera(t_camera *camera, t_vec ray_dir);
-void					rt_recalc_x_mtrx(double mtrx[3][3], double rad);
-void					rt_recalc_y_mtrx(double mtrx[3][3], double rad);
-void					rt_recalc_z_mtrx(double mtrx[3][3], double rad);
 
 #endif

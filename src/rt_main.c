@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:24:31 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 19:51:44 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 19:03:16 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void		rt_intersect_ray(t_ray ray, t_objects *objs, t_intersect *inter,
 {
 	if (objs->type == OBJ_SPHERE)
 		rt_intersect_ray_sphere(ray, objs, inter, dist_range);
-	if (objs->type == OBJ_PLANE)
+	else if (objs->type == OBJ_PLANE)
 		rt_intersect_ray_plane(ray, objs, inter, dist_range);
-	if (objs->type == OBJ_CYL)
+	else if (objs->type == OBJ_CYL)
 		rt_intersect_ray_cylinder(ray, objs, inter, dist_range);
-	if (objs->type == OBJ_CONE)
+	else if (objs->type == OBJ_CONE)
 		rt_intersect_ray_cone(ray, objs, inter, dist_range);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 19:36:54 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 17:53:52 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 15:25:38 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void		cn_event_handle(t_canvas *cn, SDL_Event *e, t_flags *f)
 {
-	wn_handle_event(&(cn->wn), e);
 	if (e->type == SDL_MOUSEBUTTONUP)
 		if (e->button.button == SDL_BUTTON_LEFT)
 			f->lmb_down = false;

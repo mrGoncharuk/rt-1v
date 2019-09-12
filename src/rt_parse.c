@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 15:46:34 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/10 17:54:54 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 13:30:44 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ bool	parse_array_of_scene_objects(const JSON_Array *j_arr, t_objects **objs)
 {
 	JSON_Object	*j_ob;
 	t_objects	*obj;
-	size_t		size;
-	size_t		i;
+	size_t		size_i[2];
 
-	size = json_array_get_count(j_arr);
-	i = 0;
+	size_i[0] = json_array_get_count(j_arr);
 	obj = (t_objects *)malloc(sizeof(t_objects));
 	*objs = obj;
-	while (i < size)
+	size_i[1] = 0;
+	while (size_i[1] < size_i[0])
 	{
-		if (i != 0)
+		if (size_i[1] != 0)
 		{
 			obj->next = (t_objects *)malloc(sizeof(t_objects));
 			obj = obj->next;
 		}
-		j_ob = json_array_get_object(j_arr, i++);
+		j_ob = json_array_get_object(j_arr, size_i[1]++);
 		if (!pr_object(j_ob, obj))
 		{
+			obj->next = NULL;
 			rt_free_objects(objs);
 			return (false);
 		}
@@ -45,23 +45,23 @@ bool	parse_array_of_lights(const JSON_Array *j_arr, t_lights **lights)
 {
 	JSON_Object	*j_ob;
 	t_lights	*light;
-	size_t		size;
-	size_t		i;
+	size_t		size_i[2];
 
-	size = json_array_get_count(j_arr);
-	i = 0;
+	size_i[0] = json_array_get_count(j_arr);
 	light = (t_lights *)malloc(sizeof(t_lights));
 	*lights = light;
-	while (i < size)
+	size_i[1] = 0;
+	while (size_i[1] < size_i[0])
 	{
-		if (i != 0)
+		if (size_i[1] != 0)
 		{
 			light->next = (t_lights *)malloc(sizeof(t_lights));
 			light = light->next;
 		}
-		j_ob = json_array_get_object(j_arr, i++);
+		j_ob = json_array_get_object(j_arr, size_i[1]++);
 		if (!pr_light(j_ob, light))
 		{
+			light->next = NULL;
 			rt_free_lights(lights);
 			return (false);
 		}

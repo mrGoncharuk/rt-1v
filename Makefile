@@ -6,7 +6,7 @@
 #    By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/15 19:28:21 by mhonchar          #+#    #+#              #
-#    Updated: 2019/09/11 18:51:14 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/09/12 15:25:09 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ HEADERS = 		$(INC_DIR)canvas.h \
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
-CC = gcc -g -fsanitize=address -flto -Ofast -pipe
+CC = gcc -g 
 CFLAGS = -Wall -Werror -Wextra
 INC = 	-I $(INC_DIR) \
 		-I libft \
