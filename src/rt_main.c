@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:24:31 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/12 19:03:16 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 21:04:54 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,30 @@ t_channel	rt_trace_ray(t_ray ray, t_rt *rt, double *dist_range, int depth)
 		inter.closest_obj->reflection));
 }
 
-void		rt_mainloop(t_rt *rt, t_canvas *cn)
+void		*rt_threaded_loop(void *r)
 {
+	t_rt		*rt;
 	t_ray		ray;
 	t_channel	color;
-	int			x;
 	int			y;
 	double		dist_range[2];
 
+	rt = (t_rt *)r;
 	dist_range[0] = 1;
 	dist_range[1] = DBL_MAX;
 	ray.origin = rt->camera.origin;
-	x = -CW / 2 - 1;
-	while (++x <= CW / 2)
+	rt->x_start--;
+	while (++rt->x_start <= CW / 2)
 	{
 		y = -CH / 2 - 1;
 		while (++y <= CH / 2)
 		{
-			ray.direction = rt_canvas_to_viewport(x, y);
+			ray.direction = rt_canvas_to_viewport(rt->x_start, y);
 			ray.direction = rt_rotate_camera(&(rt->camera), ray.direction);
 			color = rt_trace_ray(ray, rt, dist_range, RECURTION_DEPTH);
-			ft_pp_img(cn, x + CW / 2, CH / 2 - y,
+			ft_pp_img(rt->pixels, rt->x_start + CW / 2, CH / 2 - y,
 				rt_channel_color_to_uint(color));
 		}
 	}
+	return (r);
 }

@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 17:22:55 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/12 19:15:42 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 21:04:28 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_event(t_sdls *app)
 			app->flags.running = false;
 		if (SDL_KEYDOWN == event.type && event.key.keysym.sym == SDLK_UP)
 		{
-			ft_putstr("Kek\n");
 			app->flags.rot_x = true;
 		}
 		if (SDL_KEYDOWN == event.type && event.key.keysym.sym == SDLK_LEFT)
@@ -59,13 +58,15 @@ void	ft_mainloop(t_sdls *app)
 
 	if (rt_parse_file(&rt, "scene.json") == false)
 		return ;
+	rt.pixels = (Uint32 *)malloc(CW * CH * sizeof(Uint32));
 	while (app->flags.running)
 	{
 		ft_event(app);
 		ft_update(app, &rt);
 		if (app->flags.state_changed)
 		{
-			rt_mainloop(&rt, &(app->canvas));
+			rt_thread_tracer(&rt);
+			app->canvas.pixels = rt.pixels;
 			app->flags.state_changed = 0;
 		}
 		ft_render(app);

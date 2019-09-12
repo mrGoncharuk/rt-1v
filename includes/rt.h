@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/12 18:25:39 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 21:07:30 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <float.h>
 # include <stdbool.h>
+# include <pthread.h>
 # include "libft.h"
 # include "canvas.h"
 # include "window.h"
@@ -22,6 +23,8 @@
 # include "parson.h"
 # include "SDL2/SDL.h"
 # include "SDL2_image/SDL_image.h"
+
+# define THREADS_AMOUNT 4
 # define CW CN_WIDTH
 # define CH CN_HEIGHT
 # define VIEWPORT_WIDTH 1
@@ -95,6 +98,9 @@ typedef struct			s_rt
 	t_objects			*objs;
 	t_lights			*lights;
 	t_camera			camera;
+	Uint32				*pixels;
+	int					x_start;
+	int					x_end;
 }						t_rt;
 
 typedef struct			s_flags
@@ -132,7 +138,9 @@ t_vec					rt_calc_sphere_normal(t_intersect *inter);
 t_vec					rt_calc_cylinder_normal(t_intersect *inter, t_ray ray);
 t_vec					rt_calc_cone_normal(t_intersect *inter, t_ray ray);
 Uint32					rt_channel_color_to_uint(t_channel color);
-void					rt_mainloop(t_rt *rt, t_canvas *cn);
+void					rt_mainloop(t_rt *rt, Uint32 *pixels);
+t_channel				rt_trace_ray(t_ray ray, t_rt *rt, double *dist_range,
+									int depth);
 void					rt_intersect_ray(t_ray ray, t_objects *objs,
 							t_intersect *inter, double *dist_range);
 double					rt_select_dist(double *roots, double *dist_range);
@@ -174,5 +182,7 @@ bool					pr_reflection(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_radius(const JSON_Object *j_ob, t_objects *obj);
 
 t_vec					rt_rotate_camera(t_camera *camera, t_vec ray_dir);
+void					*rt_threaded_loop(void *r);
+void					rt_thread_tracer(t_rt *rt);
 
 #endif

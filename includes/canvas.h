@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 17:22:57 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 18:38:20 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/12 20:09:27 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void				cn_event_handle(t_canvas *cn, SDL_Event *e, t_flags *f);
 void				cn_update(t_canvas *cn);
 void				cn_render(t_canvas *cn);
 void				cn_destroy_canvas(t_canvas *canvas);
-void				ft_draw_line(t_canvas *canv, t_vector2 p0, t_vector2 p1);
-void				ft_pp_img(t_canvas *canv, int x, int y, Uint32 color);
+void				ft_pp_img(Uint32 *pixels, int x, int y, Uint32 color);
 
 #endif
