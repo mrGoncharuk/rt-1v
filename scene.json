@@ -4,9 +4,9 @@
 		"centre": [-2, 2, 10],
 		"orient": [0, 1, 0],
 		"color": [56, 212, 120],
-		"radius": 0.6,
-		"angle": 45,
-		"reflection": -1,
+		"radius": 6,
+		"angle": 50,
+		"reflection": 0,
 		"specular": 100
 	} ,{
 		"type": "sphere",

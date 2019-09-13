@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/12 21:07:30 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/13 16:55:06 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,6 @@ typedef struct			s_camera
 {
 	t_vec				origin;
 	t_vec				orient;
-	double				rot_x[3][3];
-	double				rot_y[3][3];
-	double				rot_z[3][3];
 }						t_camera;
 
 typedef struct			s_rt
@@ -111,13 +108,15 @@ typedef struct			s_flags
 	bool				state_changed;
 	bool				rot_x;
 	bool				rot_y;
-	bool				rot_z;
+	bool				rot_x_min;
+	bool				rot_y_min;
 }						t_flags;
 
 typedef struct			s_sdls
 {
 	t_canvas			canvas;
 	t_flags				flags;
+	char				*fname;
 }						t_sdls;
 
 void					ft_sdl_init(t_sdls *app);
@@ -184,5 +183,6 @@ bool					pr_radius(const JSON_Object *j_ob, t_objects *obj);
 t_vec					rt_rotate_camera(t_camera *camera, t_vec ray_dir);
 void					*rt_threaded_loop(void *r);
 void					rt_thread_tracer(t_rt *rt);
+void					rt_handle_rotation(t_sdls *app, t_rt *rt);
 
 #endif
