@@ -1,0 +1,77 @@
+{
+	"objects": [{
+		"type": "plane",
+		"centre": [0, -4, 0],
+		"orient": [0, 1, 0],
+		"color": [9, 222, 73],
+		"reflection": 0,
+		"specular": 100
+	} ,{
+		"type": "plane",
+		"centre": [0, 0, 15],
+		"orient": [0, 0, 1],
+		"color": [255, 128, 0],
+		"reflection": 0,
+		"specular": 100
+	}, {
+		"type": "cylinder",
+		"centre": [-5, 0, 10],
+		"orient": [0, 1, 0],
+		"color": [199, 193, 187],
+		"radius": 0.7,
+		"reflection": 0,
+		"specular": 100
+	},{
+		"type": "cylinder",
+		"centre": [-5, 0, 5],
+		"orient": [0, 1, 0],
+		"color": [199, 193, 187],
+		"radius": 0.7,
+		"reflection": 0,
+		"specular": 100
+	},{
+		"type": "cylinder",
+		"centre": [5, 0, 10],
+		"orient": [0, 1, 0],
+		"color": [199, 193, 187],
+		"radius": 0.7,
+		"reflection": 0,
+		"specular": 100
+	},{
+		"type": "cylinder",
+		"centre": [5, 0, 5],
+		"orient": [0, 1, 0],
+		"color": [199, 193, 187],
+		"radius": 0.7,
+		"reflection": 0,
+		"specular": 100
+	},{
+		"type": "cone",
+		"centre": [0, -4, 12.5],
+		"orient": [0, 1, 0],
+		"color": [0, 191, 255],
+		"angle": 30,
+		"reflection": 0.1,
+		"specular": 1000
+	}],
+	"lights": [{
+		"type": "ambient",
+		"intensity": 0.3
+	},{
+		"type": "point",
+		"position": [-10, 7, 7.5],
+		"intensity": 0.15
+	},{
+		"type": "point",
+		"position": [10, 7, 7.5],
+		"intensity": 0.15
+	},{
+		"type": "point",
+		"position": [0, 7, -5],
+		"intensity": 0.15
+	}],
+	"camera": {
+		"orient": [0, 0, 0],
+		"origin": [0, 0, -10]
+	}
+}

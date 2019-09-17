@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 17:22:55 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/13 16:54:23 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:04:42 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ void	ft_mainloop(t_sdls *app)
 		}
 		ft_render(app);
 	}
+	rt_clean(&rt);
 }

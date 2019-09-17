@@ -6,7 +6,7 @@
 #    By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/15 19:28:21 by mhonchar          #+#    #+#              #
-#    Updated: 2019/09/13 16:37:35 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/09/17 17:21:27 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC_FILES =		main.c \
 				pr_fields2.c \
 				pr_lights.c \
 				pr_objs.c \
+				pr_camera.c \
 				rt_threader.c \
 				rt_update.c 
 
@@ -59,7 +60,7 @@ HEADERS = 		$(INC_DIR)canvas.h \
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
-CC = gcc -g -flto -Ofast -pipe
+CC = gcc -flto -Ofast -pipe
 CFLAGS = -Wall -Werror -Wextra
 INC = 	-I $(INC_DIR) \
 		-I libft \

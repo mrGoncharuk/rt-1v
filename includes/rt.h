@@ -6,7 +6,7 @@
 /*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 15:23:19 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/13 16:55:06 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:38:13 by mhonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ bool					pr_light_point(const JSON_Object *j_ob,
 										t_lights *point);
 bool					pr_light_ambient(const JSON_Object *j_ob,
 										t_lights *ambient);
+bool					pr_camera(const JSON_Object *j_ob, t_camera *camera);
 bool					pr_angle(const JSON_Object *j_ob, t_objects *obj);
 bool					pr_light_intensity(const JSON_Object *j_ob,
 											t_lights *light);
