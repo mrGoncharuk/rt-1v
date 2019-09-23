@@ -21,8 +21,8 @@
 # include "window.h"
 # include "error_handler.h"
 # include "parson.h"
-# include "SDL2/SDL.h"
-# include "SDL2_image/SDL_image.h"
+# include <SDL2/SDL.h>
+# include <SDL2/SDL_image.h>
 
 # define THREADS_AMOUNT 4
 # define CW CN_WIDTH

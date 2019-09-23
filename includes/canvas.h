@@ -14,7 +14,7 @@
 # define CANVAS_H
 # define CN_WIDTH 800
 # define CN_HEIGHT 800
-# include "SDL2/SDL.h"
+# include <SDL2/SDL.h>
 # include "window.h"
 # include "error_handler.h"
 # define STD_WIDTH 800

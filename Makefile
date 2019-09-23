@@ -55,24 +55,24 @@ SRC_FILES =		main.c \
 HEADERS = 		$(INC_DIR)canvas.h \
 				$(INC_DIR)error_handler.h \
 				$(INC_DIR)window.h \
-				$(LIBFT_DIR)/libft.h 
+				$(LIBFT_DIR)libft.h 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
-CC = gcc -flto -Ofast -pipe
+CC = clang -flto -Ofast -pipe
 CFLAGS = -Wall -Werror -Wextra
-INC = 	-I $(INC_DIR) \
-		-I libft \
-		-I libparson \
-		-I $(CURDIR)/$(FRM_DIR)/SDL2.framework/⁨Versions⁩/A/Headers \
-		-I $(CURDIR)/$(FRM_DIR)/SDL2_image.framework/Versions⁩/A/Headers \
-		-F $(CURDIR)/$(FRM_DIR)
+INC = 		-I $(INC_DIR) \
+			-I libft \
+			-I libparson 
 
 
-SDL_LNK	= -F $(CURDIR)/$(FRM_DIR) \
-			-rpath $(CURDIR)/$(FRM_DIR) \
-			-framework SDL2 -framework SDL2_image 
+LIBS_LINK = -l SDL2 \
+			-l SDL2_image \
+			-lm \
+			-lpthread
+
+
 
 
 C_RED = \033[31m
@@ -83,7 +83,7 @@ C_NONE = \033[0m
 all: $(NAME)
 
 $(NAME): $(LIBFT_NAME) $(LIBPARSON_NAME) $(HEADERS) $(OBJ_DIR) $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIB) $(INC) $(SDL_LNK) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIB) $(INC) $(LIBS_LINK) -o $(NAME)
 	@printf "$(C_MAGENTA)$(NAME):$(C_NONE) %-25s$(C_GREEN)[done]$(C_NONE)\n" $@
 
 $(LIBFT_NAME):

@@ -35,8 +35,8 @@ double		rt_calc_specularity(t_vec normal, t_vec light, t_vec v, double spec)
 	return (i);
 }
 
-bool		rt_point_in_shadow(t_objects *objs, t_vec point, t_vec light,
-								int l_type)
+bool		rt_point_in_shadow(t_objects *objs, t_lights *light_source,
+								t_vec point, t_vec light)
 {
 	double		dist_range[2];
 	t_intersect	inter;
@@ -47,7 +47,10 @@ bool		rt_point_in_shadow(t_objects *objs, t_vec point, t_vec light,
 	inter.dist = DBL_MAX;
 	inter.closest_obj = NULL;
 	dist_range[0] = 0.0001;
-	dist_range[1] = (l_type == LT_POINT) ? 1 : DBL_MAX;
+	if (light_source->type == LT_POINT)
+		dist_range[1] = vec_length(point - light_source->position);
+	else
+		dist_range[1] = DBL_MAX;
 	while (objs)
 	{
 		rt_intersect_ray(ray, objs, &inter, dist_range);
@@ -92,7 +95,7 @@ double		rt_compute_lighting(t_objects *objs, t_lights *lights,
 			else
 				l = lights->direction;
 			l = l / vec_length(l);
-			if (rt_point_in_shadow(objs, inter->hit, l, lights->type))
+			if (rt_point_in_shadow(objs, lights, inter->hit, l))
 			{
 				lights = lights->next;
 				continue;
