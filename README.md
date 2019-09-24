@@ -26,6 +26,8 @@ WARNING: before to compile on linux you must have installed clang compiler, SDL2
 # Features
  
  - Scene parses from .json file
+ - 4 basic shapes
+ - 3 types of light sources
  - Reflections
  - Specularity effect
  - Camera rotation on arrows
