@@ -17,7 +17,7 @@ For Mac(master) and Linux(linux_vers) there are several branches.
 - to execute binary file: ./RTv1 scenes/scene3.json 
 
 ## Linux
-WARNING: you must have installed: clang compiler, SDL2, SDL2_image libraries
+WARNING: before to compile on linux you must have installed clang compiler, SDL2 and SDL2_image libraries
 - clone repository: git clone https://github.com/mrGoncharuk/rt-1v.git
 - change branch: git checkout linux_vers
 - inside repository dir: make
