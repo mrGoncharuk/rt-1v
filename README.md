@@ -8,28 +8,27 @@ RT is a fully featured Raytracer built as a project at 42. This project is inten
 
 At 42, we follow a strict norm in order to teach us to follow style guides. This norm also prevents us from using many built-in functions. In this project, we are limited to using a barebones graphic library called minilibx. This library limits the functionality to creating windows, handling input hooks, and coloring specific pixels.
 
-### Usage
+# Usage
 
-## Compile
 For Mac(master) and Linux(linux_vers) there are several branches.
-# Mac
+## Mac
 - clone repository: git clone https://github.com/mrGoncharuk/rt-1v.git
 - inside repository dir: make
 - to execute binary file: ./RTv1 scenes/scene3.json 
 
-# Linux
+## Linux
 WARNING: you must have installed: clang compiler, SDL2, SDL2_image libraries
 - clone repository: git clone https://github.com/mrGoncharuk/rt-1v.git
 - change branch: git checkout linux_vers
 - inside repository dir: make
 - to execute binary file: ./RTv1 scenes/scene3.json
 
-### Features
+# Features
  
  - Scene parses from .json file
  - Reflections
  - Specularity effect
  - Camera rotation on arrows
  
-### Images
+# Images
 
