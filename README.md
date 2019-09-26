@@ -32,5 +32,11 @@ WARNING: before to compile on linux you must have installed clang compiler, SDL2
  - Specularity effect
  - Camera rotation on arrows
  
-# Images
+# Screenshots
+![rt_screen1](https://user-images.githubusercontent.com/28892426/65695254-d9bcac80-e07f-11e9-965c-8044bf717978.png)
+![rt_screen2](https://user-images.githubusercontent.com/28892426/65695255-d9bcac80-e07f-11e9-9ba8-be9d59fa3b50.png)
+![rt_screen3](https://user-images.githubusercontent.com/28892426/65695256-d9bcac80-e07f-11e9-9fb4-820eaff524e6.png)
+![rt_screen4](https://user-images.githubusercontent.com/28892426/65695257-d9bcac80-e07f-11e9-9306-1a32781c2f84.png)
+![rt_screen5](https://user-images.githubusercontent.com/28892426/65695258-da554300-e07f-11e9-89ad-be03cd36b078.png)
+![rt_screen6](https://user-images.githubusercontent.com/28892426/65695259-da554300-e07f-11e9-9f2c-0cb0d6e930f6.png)
 
