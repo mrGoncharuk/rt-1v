@@ -30,7 +30,7 @@
 # define VIEWPORT_WIDTH 1
 # define VIEWPORT_HEIGHT 1
 # define DIST_CAM_PP 1
-# define RECURTION_DEPTH 3
+# define RECURTION_DEPTH 7
 # define DEG_TO_RAD(angle) (M_PI * angle) / 180
 # define ROT_POWER DEG_TO_RAD(15);
 

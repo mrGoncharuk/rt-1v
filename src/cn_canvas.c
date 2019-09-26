@@ -32,7 +32,7 @@ static int	cn_create(t_canvas *cn, SDL_Renderer *r, const int w, const int h)
 
 void		cn_create_canvas(t_canvas *cn)
 {
-	wn_init(&(cn->wn), "GUImp", (SDL_Rect) {SDL_WINDOWPOS_CENTERED,
+	wn_init(&(cn->wn), "RT", (SDL_Rect) {SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, CN_WIDTH, CN_HEIGHT},
 		SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	if (cn_create(cn, cn->wn.renderer, CN_WIDTH, CN_HEIGHT) < 0)

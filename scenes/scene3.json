@@ -66,6 +66,14 @@
 		"specular": 500.0,
 		"reflection": -1,
 		"radius": 1
+	}, {
+		"type": "sphere",
+		"centre": [-5, -2, 15],
+		"orient": [0.0, 0.0, 0.0],
+		"color": [191, 255, 0],
+		"specular": 500.0,
+		"reflection": 1,
+		"radius": 1.5
 	},	{
 		"type": "cylinder",
 		"centre": [-6, 0, 10],
@@ -101,18 +109,18 @@
 ],
 	"lights": [{
 		"type": "ambient",
-		"intensity": 0.3
+		"intensity": 0.2
 	}, {
 		"type": "point",
 		"position": [4, 4, 15],
 		"intensity": 0.2
 	}, {
 		"type": "point",
-		"position": [-2, -2, 3],
-		"intensity": 0.2
-	}, {
-		"type": "point",
 		"position": [5, 5, -5],
 		"intensity": 0.1
-	}]
+	}],
+	"camera": {
+		"orient": [0, 0, 0],
+		"origin": [0, 0, -3]
+	}
 }
