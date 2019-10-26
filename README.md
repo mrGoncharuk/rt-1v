@@ -4,9 +4,6 @@
 
 RT is a fully featured Raytracer built as a project at 42. This project is intended to be a four person six week project, however I decided to attempt it by myself. Ray tracing is a technique for rendering images by simulating the path of light through an image plane. This project uses .ini files to configure the input.
 
-### Coding Style
-
-At 42, we follow a strict norm in order to teach us to follow style guides. This norm also prevents us from using many built-in functions. In this project, we are limited to using a barebones graphic library called minilibx. This library limits the functionality to creating windows, handling input hooks, and coloring specific pixels.
 
 # Usage
 
