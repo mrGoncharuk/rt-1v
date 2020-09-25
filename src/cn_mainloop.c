@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cn_mainloop.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmolyboh <dmolyboh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 19:36:54 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/12 15:25:38 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/20 10:00:39 by dmolyboh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		cn_event_handle(t_canvas *cn, SDL_Event *e, t_flags *f)
 
 void		cn_update(t_canvas *cn)
 {
-	SDL_UpdateTexture(cn->field, NULL, cn->pixels, cn->w * sizeof(Uint32));
+	SDL_UpdateTexture(cn->field, NULL, cn->pixels_copy, cn->w * sizeof(Uint32));
 }
 
 void		cn_render(t_canvas *cn)

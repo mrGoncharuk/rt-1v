@@ -5,20 +5,22 @@
 		"orient": [0, 1, 0],
 		"color": [9, 222, 73],
 		"reflection": -1,
+		"texture": 7,
 		"specular": 100
 	} ,{
 		"type": "plane",
 		"centre": [0, 8, 0],
 		"orient": [0, 1, 0],
 		"color": [3, 211, 252],
+		"texture": 7,
 		"specular": 100
     },{
 		"type": "sphere",
 		"centre": [0, -3, 18],
 		"orient": [0.0, 0.0, 0.0],
-		"color": [255, 255, 255],
-		"specular": 1000.0,
-		"reflection": 1,
+		"color": [137, 137, 137],
+		"specular": 500.0,
+		"reflection": 0.49,
 		"transparency": 0.49,
 		"radius": 1.3
 	}, {
@@ -34,7 +36,7 @@
 		"centre": [4, -3, 13],
 		"orient": [0.0, 0.0, 0.0],
 		"color": [191, 255, 0],
-		"specular": 200.0,
+		"specular": 500.0,
 		"reflection": 1,
 		"radius": 1.3
 	},{
@@ -42,7 +44,9 @@
 		"centre": [-5, 2, 20],
 		"orient": [0, 1, 0],
 		"color": [0, 191, 255],
+		"cut": [-10, 0, 0],
 		"angle": 30,
+		"texture": 8,
 		"reflection": -1,
 		"specular": 100
 	},
@@ -51,7 +55,9 @@
 		"centre": [5, 2, 20],
 		"orient": [0, 1, 0],
 		"color": [0, 191, 255],
+		"cut": [-10, 0, 0],
 		"angle": 30,
+		"texture": 8,
 		"reflection": -1,
 		"specular": 100
 	}, {
@@ -59,14 +65,14 @@
 		"centre": [0, 2, 29],
 		"orient": [0, 1, 5],
 		"color": [25, 128, 255],
-		"reflection": 0,
+		"reflection": 1,
 		"radius": 6,
 		"specular": 100
 	}
 ],
 	"lights": [{
 		"type": "ambient",
-		"intensity": 0.1
+		"intensity": 0.3
 	}, {
 		"type": "point",
 		"position": [0, 2, 24],
@@ -80,5 +86,9 @@
 		"position": [5, 5, -5],
 		"intensity": 0.3
 	}
-]
+],
+	"camera":{
+		"origin": [0, 0, 0],
+		"orient": [0, 0, 0] 
+	}
 }

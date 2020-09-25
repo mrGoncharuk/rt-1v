@@ -4,14 +4,14 @@
 		"centre": [0, -4, 0],
 		"orient": [0, 1, 0],
 		"color": [9, 222, 73],
-		"reflection": 0,
+		"reflection": -1,
+		"texture": 7,
 		"specular": 100
 	} ,{
 		"type": "plane",
 		"centre": [0, 8, 0],
 		"orient": [0, 1, 0],
 		"color": [3, 211, 252],
-		"reflection": 0,
 		"specular": 100
 	} ,{
 		"type": "plane",
@@ -34,17 +34,18 @@
 		"color": [255, 128, 0],
 		"reflection": 0,
 		"specular": 100
-	}, {
+	},  {
 		"type": "sphere",
-		"centre": [0, -3, 20],
+		"centre": [5, -3, 23],
 		"orient": [0.0, 0.0, 0.0],
 		"color": [137, 222, 9],
+
 		"specular": 500.0,
 		"reflection": -1,
 		"radius": 1
 	}, {
 		"type": "sphere",
-		"centre": [1, -3, 20],
+		"centre": [6, -3, 23],
 		"orient": [0.0, 0.0, 0.0],
 		"color": [255, 64, 0],
 		"specular": 500.0,
@@ -52,37 +53,42 @@
 		"radius": 1
 	}, {
 		"type": "sphere",
-		"centre": [2, -2, 20],
+		"centre": [0, -2, 2],
 		"orient": [0.0, 0.0, 0.0],
 		"color": [255, 191, 0],
+		"texture": 7,
 		"specular": 500.0,
 		"reflection": -1,
 		"radius": 1
 	}, {
 		"type": "sphere",
-		"centre": [2, -1, 20],
+		"centre": [7, -1, 23],
 		"orient": [0.0, 0.0, 0.0],
 		"color": [191, 255, 0],
 		"specular": 500.0,
 		"reflection": -1,
 		"radius": 1
-	}, {
-		"type": "sphere",
-		"centre": [-5, -2, 15],
-		"orient": [0.0, 0.0, 0.0],
-		"color": [191, 255, 0],
-		"specular": 500.0,
-		"reflection": 1,
-		"radius": 1.5
 	},	{
 		"type": "cylinder",
-		"centre": [-6, 0, 10],
+		"centre": [-5.5, 0, 8],
 		"orient": [0, 1, 0],
 		"color": [199, 193, 187],
 		"radius": 1,
+		"texture":5,
 		"reflection": 0,
 		"specular": 100
-	},	{
+	},
+	{
+		"type": "cylinder",
+		"centre": [12, 7.5, 18],
+		"orient": [1, 0, 0],
+		"color": [63, 63, 150],
+		"radius": 0.1,
+		"transparency": 0,
+		"reflection": 0,
+		"specular": 100
+	},
+	{
 		"type": "cylinder",
 		"centre": [-6, 0, 20],
 		"orient": [0, 1, 0],
@@ -92,35 +98,42 @@
 		"specular": 100
 	},	{
 		"type": "cone",
-		"centre": [-2, 8, 30],
+		"centre": [5.5, 5, 27],
 		"orient": [0, 1, 0],
 		"color": [0, 191, 255],
+		"cut": [-10, 0, 0],
 		"angle": 30,
 		"reflection": -1,
 		"specular": 100
 	}, {
 		"type": "plane",
-		"centre": [0, 0, 30],
-		"orient": [1.5, 0, 1],
+		"centre": [0, 2, 29],
+		"orient": [0, 0, 1],
 		"color": [25, 128, 255],
-		"reflection": 0.5,
+		"reflection": 1,
+		"radius": 6,
 		"specular": 100
 	}
 ],
 	"lights": [{
 		"type": "ambient",
-		"intensity": 0.2
+		"intensity": 0.3
 	}, {
 		"type": "point",
-		"position": [4, 4, 15],
+		"position": [0, 2, 24],
+		"intensity": 0.3
+	}, {
+		"type": "point",
+		"position": [-2, -2, 3],
 		"intensity": 0.2
 	}, {
 		"type": "point",
 		"position": [5, 5, -5],
-		"intensity": 0.1
-	}],
-	"camera": {
-		"orient": [0, 0, 0],
-		"origin": [0, 0, -3]
+		"intensity": 0.3
+	}
+],
+	"camera":{
+		"origin": [0, 0, 0],
+		"orient": [0, 0, 0] 
 	}
 }

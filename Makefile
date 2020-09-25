@@ -6,11 +6,11 @@
 #    By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/15 19:28:21 by mhonchar          #+#    #+#              #
-#    Updated: 2019/09/17 17:21:27 by mhonchar         ###   ########.fr        #
+#    Updated: 2019/09/20 17:38:30 by mhonchar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = RTv1
+NAME = RT
 LIBFT_NAME = libft.a
 LIBPARSON_NAME = libparson.a
 SRC_DIR = src/
@@ -23,56 +23,70 @@ LIB = 	$(addprefix $(LIBFT_DIR), $(LIBFT_NAME)) \
 		$(addprefix $(LIBPARSON_DIR), $(LIBPARSON_NAME)) 
 
 
-SRC_FILES =		main.c \
-				error_handler.c \
-				window.c \
-				sdl_init.c \
+SRC_FILES =		cn_mainloop.c \
+				key_hooks.c \
+				pr_fields2.c \
+				pr_objs.c \
+				rt_cone.c \
+				rt_light.c \
+				rt_plane.c \
+				rt_tx_texture.c \
 				sdl_clean.c \
-				cn_canvas.c \
-				cn_mainloop.c \
+				anti_aliasing.c \
+				color_disruptions.c \
+				color_disruptions_.c \
+				main.c \
+				pr_fields3.c \
+				rt_clean.c \
+				rt_cut_and_sort_roots.c \
+				rt_main.c \
+				rt_rotation.c \
+				rt_utils.c \
+				rt_utils_.c \
+				sdl_init.c \
+				cam_matrix_rotation.c \
 				draw_line.c \
 				main_loop.c \
-				rt_main.c \
+				pr_fields4.c \
 				rt_color.c \
-				rt_light.c \
-				rt_sphere.c \
-				rt_plane.c \
 				rt_cylinder.c \
-				rt_cone.c \
-				rt_utils.c \
+				rt_parabaloid.c \
+				rt_sphere.c \
 				rt_vec_op_utils.c \
-				rt_parse.c \
-				rt_clean.c \
-				rt_rotation.c \
+				window.c \
+				cn_canvas.c \
+				er_error_handler.c \
 				pr_fields.c \
-				pr_fields2.c \
 				pr_lights.c \
-				pr_objs.c \
-				pr_camera.c \
+				rt_compose_obj.c \
+				rt_figure_defenetion.c \
+				rt_parse.c \
 				rt_threader.c \
-				rt_update.c 
-
+				rt_visual_effects.c \
+				rt_shadows.c \
+				rt_update.c
+				
 HEADERS = 		$(INC_DIR)canvas.h \
 				$(INC_DIR)error_handler.h \
 				$(INC_DIR)window.h \
-				$(LIBFT_DIR)libft.h 
+				$(LIBFT_DIR)/libft.h 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
-CC = clang -flto -Ofast -pipe
-CFLAGS = -Wall -Werror -Wextra
-INC = 		-I $(INC_DIR) \
-			-I libft \
-			-I libparson 
+
+
+CC = clang -g
+CFLAGS = -Wall -Werror -Wextra -flto -Ofast -pipe
+INC = 	-I $(INC_DIR) \
+		-I libft \
+		-I libparson \
 
 
 LIBS_LINK = -l SDL2 \
 			-l SDL2_image \
 			-lm \
 			-lpthread
-
-
 
 
 C_RED = \033[31m

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   canvas.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmolyboh <dmolyboh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 17:22:57 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/12 20:09:27 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/20 10:23:03 by dmolyboh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CANVAS_H
 # define CANVAS_H
-# define CN_WIDTH 800
-# define CN_HEIGHT 800
-# include <SDL2/SDL.h>
+# define CN_WIDTH 1000
+# define CN_HEIGHT 1000
+# include "SDL2/SDL.h"
 # include "window.h"
 # include "error_handler.h"
 # define STD_WIDTH 800
@@ -43,6 +43,7 @@ typedef struct		s_canvas
 	int				h;
 	Uint32			draw_color;
 	Uint32			*pixels;
+	Uint32			*pixels_copy;
 	SDL_Texture		*field;
 }					t_canvas;
 

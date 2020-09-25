@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmolyboh <dmolyboh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 19:20:36 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/11 17:53:36 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/18 10:30:24 by dmolyboh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,10 @@ int		err_sdl_load(int err_code, const char *path)
 		err_show("File path: ", path);
 	}
 	return (0);
+}
+
+bool	false_error(char *str)
+{
+	ft_putendl(str);
+	return (false);
 }

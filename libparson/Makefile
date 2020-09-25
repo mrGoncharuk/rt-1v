@@ -16,7 +16,7 @@ NAME = libparson.a
 all: $(NAME)
 
 $(NAME):
-	@gcc -Wall -Werror -Wextra  -c $(SRC)
+	@clang -Wall -Werror -Wextra  -c $(SRC)
 	@ar rc $(NAME) $(OBJS)
 
 clean:

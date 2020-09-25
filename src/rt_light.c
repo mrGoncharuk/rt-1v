@@ -3,25 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   rt_light.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhonchar <mhonchar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmolyboh <dmolyboh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 20:48:06 by mhonchar          #+#    #+#             */
-/*   Updated: 2019/09/12 19:13:09 by mhonchar         ###   ########.fr       */
+/*   Updated: 2019/09/20 15:22:54 by dmolyboh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_channel	rt_calc_reflected_color(t_channel local_color,
-				t_channel reflected_color, double r)
+t_channel			rt_calc_ref_tran_color(t_color_trace color,
+						double r, double t)
 {
-	local_color.r = local_color.r * (1 - r) + reflected_color.r * r;
-	local_color.g = local_color.g * (1 - r) + reflected_color.g * r;
-	local_color.b = local_color.b * (1 - r) + reflected_color.b * r;
-	return (local_color);
+	color.local_color.r = color.local_color.r * (1 - t) * (1 - r) +
+		color.reflected_color.r * r + color.transparency_color.r * t;
+	color.local_color.g = color.local_color.g * (1 - t) * (1 - r) +
+		color.reflected_color.g * r + color.transparency_color.g * t;
+	color.local_color.b = color.local_color.b * (1 - t) * (1 - r) +
+		color.reflected_color.b * r + color.transparency_color.b * t;
+	color.local_color = rt_enlightenment(color.local_color, 1);
+	return (color.local_color);
 }
 
-double		rt_calc_specularity(t_vec normal, t_vec light, t_vec v, double spec)
+double				rt_calc_specularity(t_vec normal, t_vec light,
+			t_vec v, double spec)
 {
 	double	i;
 	t_vec	reflect;
@@ -35,36 +40,11 @@ double		rt_calc_specularity(t_vec normal, t_vec light, t_vec v, double spec)
 	return (i);
 }
 
-bool		rt_point_in_shadow(t_objects *objs, t_lights *light_source,
-								t_vec point, t_vec light)
+double				rt_calc_intesity(t_lights *light, t_ray r, t_vec l,
+			t_intersect *in)
 {
-	double		dist_range[2];
-	t_intersect	inter;
-	t_ray		ray;
-
-	ray.origin = point;
-	ray.direction = light;
-	inter.dist = DBL_MAX;
-	inter.closest_obj = NULL;
-	dist_range[0] = 0.0001;
-	if (light_source->type == LT_POINT)
-		dist_range[1] = vec_length(point - light_source->position);
-	else
-		dist_range[1] = DBL_MAX;
-	while (objs)
-	{
-		rt_intersect_ray(ray, objs, &inter, dist_range);
-		if (inter.closest_obj != NULL)
-			return (true);
-		objs = objs->next;
-	}
-	return (false);
-}
-
-double		rt_calc_intesity(t_lights *light, t_ray r, t_vec l, t_intersect *in)
-{
-	double	numerator;
-	double	i;
+	double		numerator;
+	double		i;
 
 	i = 0;
 	numerator = dot(in->normal, l);
@@ -72,16 +52,28 @@ double		rt_calc_intesity(t_lights *light, t_ray r, t_vec l, t_intersect *in)
 		i += light->intensity * numerator / (vec_length(in->normal) *
 				vec_length(l));
 	if (in->closest_obj->specular > 0)
-		i += light->intensity * rt_calc_specularity(in->normal, l,
-				-r.direction, in->closest_obj->specular);
+		i += (light->intensity * rt_calc_specularity(in->normal, l,
+				-r.direction, in->closest_obj->specular));
 	return (i);
 }
 
-double		rt_compute_lighting(t_objects *objs, t_lights *lights,
+static t_vec		rt_get_light_vector(t_lights *lights, t_intersect *inter)
+{
+	t_vec	l;
+
+	if (lights->type == LT_POINT)
+		l = lights->position - inter->hit;
+	else
+		l = lights->direction;
+	return (normalize(l));
+}
+
+double				rt_compute_lighting(t_objects *objs, t_lights *lights,
 			t_ray ray, t_intersect *inter)
 {
-	double	i;
-	t_vec	l;
+	double		i;
+	t_vec		l;
+	t_objects	*sh_obj;
 
 	i = 0.0;
 	while (lights)
@@ -90,13 +82,12 @@ double		rt_compute_lighting(t_objects *objs, t_lights *lights,
 			i += lights->intensity;
 		else
 		{
-			if (lights->type == LT_POINT)
-				l = lights->position - inter->hit;
-			else
-				l = lights->direction;
-			l = l / vec_length(l);
-			if (rt_point_in_shadow(objs, lights, inter->hit, l))
+			l = rt_get_light_vector(lights, inter);
+			if ((sh_obj = rt_point_in_shadow(objs, inter->hit, l, *lights)))
 			{
+				if (sh_obj->transparency > 0)
+					i += sh_obj->transparency *
+						rt_calc_intesity(lights, ray, l, inter);
 				lights = lights->next;
 				continue;
 			}

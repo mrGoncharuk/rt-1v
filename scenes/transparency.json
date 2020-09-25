@@ -7,9 +7,7 @@
 	  "orient": [0, 1, 1],
 	  "color": [255, 0, 0],
 	  "radius": 1,
-	  "reflection": 0,
-	  "specular": 100,
-	  "cut": [0, 0, 0]
+	  "specular": 100
 	 },
 	 {
 	  "type": "sphere",
@@ -17,9 +15,8 @@
 	  "orient": [0, 1, 1],
 	  "color": [0, 255, 255],
 	  "radius": 1,
-	  "reflection": 0,
-	  "specular": 100,
-	  "cut": [0, 0, 0]
+	  "transparency": 0.5,
+	  "specular": 100
 	 },
 	 {
 	  "type": "sphere",
@@ -27,9 +24,8 @@
 	  "orient": [0, 1, 1],
 	  "color": [255, 255, 0],
 	  "radius": 1,
-	  "reflection": 0,
-	  "specular": 100,
-	  "cut": [0, 0, 0]
+	  "transparency": 0.5,
+	  "specular": 100
 	 }
 	 ,
 	 {
@@ -38,9 +34,8 @@
 	  "orient": [0, 1, 1],
 	  "color": [255, 0, 255],
 	  "radius": 1,
-	  "reflection": 0,
-	  "specular": 100,
-	  "cut": [0, 0, 0]
+	  "transparency": 0.5,
+	  "specular": 100
 	 }
 	],
 	"lights":
