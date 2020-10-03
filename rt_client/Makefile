@@ -25,7 +25,7 @@ SRC = 	main.cpp \
 
 
 SOURCES = $(addprefix $(SRC_DIR), $(SRC))
-SOURCES +=	$(IMPL_DIR)imgui_impl_sdl.cpp \
+SOURCES +=	$(IMPL_DIR)imgui_impl_glfw.cpp \
 			$(IMPL_DIR)imgui_impl_opengl3.cpp
 SOURCES += 	$(IMGUI_DIR)imgui.cpp \
 			$(IMGUI_DIR)imgui_demo.cpp \
@@ -36,14 +36,14 @@ UNAME_S := $(shell uname -s)
 
 CXXFLAGS = -I$(IMPL_DIR) -I$(IMGUI_DIR) -Iincludes/
 CXXFLAGS += -g
-LIBS = 
+LIBS = -lpthread -lm
 ##---------------------------------------------------------------------
 ## OPENGL LOADER
 ##---------------------------------------------------------------------
 
 ## Using OpenGL loader: gl3w [default]
 SOURCES += imgui/examples/libs/gl3w/GL/gl3w.c
-CXXFLAGS += -Iimgui/examples/libs/gl3w
+CXXFLAGS += -Iimgui/examples/libs/gl3w -DIMGUI_IMPL_OPENGL_LOADER_GL3W
 
 ## Using OpenGL loader: glew
 # (This assumes a system-wide installation)
@@ -59,28 +59,29 @@ CXXFLAGS += -Iimgui/examples/libs/gl3w
 
 ifeq ($(UNAME_S), Linux) #LINUX
 	ECHO_MESSAGE = "Linux"
-	LIBS += -lpthread -lGL -ldl `sdl2-config --libs`
+	LIBS += -lGL `pkg-config --static --libs glfw3`
 
-	CXXFLAGS += `sdl2-config --cflags`
+	CXXFLAGS += `pkg-config --cflags glfw3`
 	CFLAGS = $(CXXFLAGS)
 endif
 
 ifeq ($(UNAME_S), Darwin) #APPLE
 	ECHO_MESSAGE = "Mac OS X"
-	LIBS += -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo `sdl2-config --libs`
+	LIBS += -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 	LIBS += -L/usr/local/lib -L/opt/local/lib
+	#LIBS += -lglfw3
+	LIBS += -lglfw
 
-	CXXFLAGS += `sdl2-config --cflags`
 	CXXFLAGS += -I/usr/local/include -I/opt/local/include
 	CFLAGS = $(CXXFLAGS)
 endif
 
 ifeq ($(findstring MINGW,$(UNAME_S)),MINGW)
-   ECHO_MESSAGE = "MinGW"
-   LIBS += -lgdi32 -lopengl32 -limm32 `pkg-config --static --libs sdl2`
+	ECHO_MESSAGE = "MinGW"
+	LIBS += -lglfw3 -lgdi32 -lopengl32 -limm32
 
-   CXXFLAGS += `pkg-config --cflags sdl2`
-   CFLAGS = $(CXXFLAGS)
+	CXXFLAGS += `pkg-config --cflags glfw3`
+	CFLAGS = $(CXXFLAGS)
 endif
 
 ##---------------------------------------------------------------------

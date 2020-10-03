@@ -7,43 +7,42 @@
 #include <iostream>
 using namespace std;
 
+static void glfw_error_callback(int error, const char* description)
+{
+    fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+}
+
+
 GUI::GUI(/* args */): clearColor(0.45f, 0.55f, 0.60f, 1.00f)
 {
-    // Setup SDL
-    // (Some versions of SDL before <2.0.10 appears to have performance/stalling issues on a minority of Windows systems,
-    // depending on whether SDL_INIT_GAMECONTROLLER is enabled or disabled.. updating to latest version of SDL is recommended!)
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
-    {
-        printf("Error: %s\n", SDL_GetError());
+    // Setup window
+    glfwSetErrorCallback(glfw_error_callback);
+    if (!glfwInit())
         return ;
-    }
 
     // Decide GL+GLSL versions
-#if __APPLE__
-    // GL 3.2 Core + GLSL 150
+#ifdef __APPLE__
+    // GL 3.2 + GLSL 150
     const char* glsl_version = "#version 150";
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
 #else
     // GL 3.0 + GLSL 130
     const char* glsl_version = "#version 130";
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
 
     // Create window with graphics context
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-    SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-   	window = SDL_CreateWindow("KardioGraph", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
-    glContext = SDL_GL_CreateContext(window);
-    SDL_GL_MakeCurrent(window, glContext);
-    SDL_GL_SetSwapInterval(1); // Enable vsync
+    this->window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
+    if (this->window == NULL)
+        return ;
+    glfwMakeContextCurrent(this->window);
+    glfwSwapInterval(1); // Enable vsync
 
     // Initialize OpenGL loader
 #if defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)
@@ -52,6 +51,14 @@ GUI::GUI(/* args */): clearColor(0.45f, 0.55f, 0.60f, 1.00f)
     bool err = glewInit() != GLEW_OK;
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)
     bool err = gladLoadGL() == 0;
+#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD2)
+    bool err = gladLoadGL(glfwGetProcAddress) == 0; // glad2 recommend using the windowing library loader instead of the (optionally) bundled one.
+#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLBINDING2)
+    bool err = false;
+    glbinding::Binding::initialize();
+#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLBINDING3)
+    bool err = false;
+    glbinding::initialize([](const char* name) { return (glbinding::ProcAddress)glfwGetProcAddress(name); });
 #else
     bool err = false; // If you use IMGUI_IMPL_OPENGL_LOADER_CUSTOM, your loader is likely to requires some form of initialization.
 #endif
@@ -61,46 +68,42 @@ GUI::GUI(/* args */): clearColor(0.45f, 0.55f, 0.60f, 1.00f)
         return ;
     }
 
-    // Setup Dear ImGui context
+// Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
-    // ImGui::StyleColorsClassic();
+    //ImGui::StyleColorsClassic();
 
     // Setup Platform/Renderer bindings
-    ImGui_ImplSDL2_InitForOpenGL(window, glContext);
+    ImGui_ImplGlfw_InitForOpenGL(this->window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
+
     memset(&(this->flags), 0, sizeof(flags));
     pixels = new uint32_t[500*500];
 }
 
 GUI::~GUI()
 {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
     delete[] pixels;
-    SDL_GL_DeleteContext(glContext);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
 }
 
 
 void    GUI::events(std::atomic<bool> &isRunning, std::atomic<bool> &imageLoaded)
 {
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-        ImGui_ImplSDL2_ProcessEvent(&event);
-        if (event.type == SDL_QUIT)
-            isRunning = false;
-        if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
-            isRunning = false;
-    }
+    glfwPollEvents();
+    if (glfwWindowShouldClose(this->window))
+        isRunning = false;
     if (imageLoaded)
     {
         this->dataRecieved = true;
@@ -108,7 +111,7 @@ void    GUI::events(std::atomic<bool> &isRunning, std::atomic<bool> &imageLoaded
     }
 }
 
-void LoadTextureFromArray(Uint32 *pixels, GLuint* out_texture)
+void LoadTextureFromArray(uint32_t *pixels, GLuint* out_texture)
 {
     // Create a OpenGL texture identifier
     GLuint image_texture;
@@ -134,7 +137,7 @@ void	GUI::update(std::mutex &recv_mutex)
     bool show_another_window = true;
     unsigned int flags = 0;
     ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(window);
+    ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
@@ -186,7 +189,7 @@ void	GUI::update(std::mutex &recv_mutex)
     {
         {
             std::lock_guard<std::mutex> lock(recv_mutex);
-            memcpy(this->pixels, this->shared_pixels, sizeof(Uint32) * 500 * 500);
+            memcpy(this->pixels, this->shared_pixels, sizeof(uint32_t) * 500 * 500);
         }
         LoadTextureFromArray(this->pixels, &this->my_image_texture);
         this->dataRecieved = false;
@@ -230,17 +233,30 @@ bool    GUI::stateChanged() const
 
 void	GUI::render()
 {
-	ImGui::Render();
-	ImGuiIO& io = ImGui::GetIO();
-	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-	glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
-	glClear(GL_COLOR_BUFFER_BIT);
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	SDL_GL_SwapWindow(window);
+	// ImGui::Render();
+	// ImGuiIO& io = ImGui::GetIO();
+	// glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+	// glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
+	// glClear(GL_COLOR_BUFFER_BIT);
+	// ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	// SDL_GL_SwapWindow(window);
+
+
+    ImGui::Render();
+    int display_w, display_h;
+    glfwGetFramebufferSize(window, &display_w, &display_h);
+    glViewport(0, 0, display_w, display_h);
+    glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    glfwSwapBuffers(window);
+
+
 }
 
-SDL_Window *GUI::getWindow() { return (this->window); }
-SDL_GLContext	GUI::getGLContext() { return (this->glContext); }
+GLFWwindow *GUI::getWindow() { return (this->window); }
+
 t_raytrace_data	GUI::getFlags() const { return this->flags; }
 void			GUI::setPixels(uint32_t *shared_pxls) { this->shared_pixels = shared_pxls; };
 // void	GUI::setStatus(std::atomic<bool> &status) { this->running = status; };
