@@ -1,0 +1,98 @@
+{
+			"objects":[
+			{
+				"type": "plane",
+				"centre": [2.2, 0, 0],
+				"orient": [1, 0, 0],
+				"color": [255, 255, 0],
+				"reflection": 1,
+				"specular": 100
+			},
+			{
+				"type": "cylinder",
+				"centre": [1, 0, 30],
+				"orient": [0, 1, 0],
+				"color": [199, 193, 187],
+				"radius": 2,
+				"texture": 5,
+				"reflection": 0,
+				"specular": 100
+			},
+			{
+				"type": "cylinder",
+				"centre": [-1, 0, 30],
+				"orient": [0, 1, 0],
+				"color": [199, 193, 187],
+				"radius": 1,
+				"texture": 5,
+				"reflection": 0,
+				"specular": 100
+			},
+			{
+				"type": "cylinder",
+				"centre": [-3, 0, 30],
+				"orient": [0, 1, 0],
+				"color": [199, 193, 187],
+				"radius": 1,
+				"texture": 5,
+				"reflection": 0,
+				"specular": 100
+			},
+			{
+				"type": "cylinder",
+				"centre": [-5, 0, 30],
+				"orient": [0, 1, 0],
+				"color": [199, 193, 187],
+				"radius": 1,
+				"texture": 5,
+				"reflection": 0,
+				"specular": 100
+			}
+			,
+			{
+				"type": "cylinder",
+				"centre": [-7, 0, 30],
+				"orient": [0, 1, 0],
+				"color": [199, 193, 187],
+				"radius": 1,
+				"texture": 5,
+				"reflection": 0,
+				"specular": 100
+			}
+			,
+			{
+				"type": "cylinder",
+				"centre": [-9, 0, 30],
+				"orient": [0, 1, 0],
+				"color": [199, 193, 187],
+				"radius": 1,
+				"texture": 5,
+				"reflection": 0,
+				"specular": 100
+			}
+			,
+			{
+				"type": "cylinder",
+				"centre": [-11, 0, 30],
+				"orient": [0, 1, 0],
+				"color": [199, 193, 187],
+				"radius": 1,
+				"texture": 5,
+				"reflection": 0,
+				"specular": 100
+			}
+		],
+			"lights": [{
+				"type": "ambient",
+				"intensity": 0.3
+			}, {
+				"type": "point",
+				"position": [1.9, 0, 0],
+				"intensity": 0.5
+			}
+		],
+			"camera":{
+				"origin": [0, 0, 0],
+				"orient": [0, 3, 0] 
+			}
+		}

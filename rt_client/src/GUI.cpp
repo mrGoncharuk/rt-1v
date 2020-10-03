@@ -83,8 +83,7 @@ GUI::~GUI()
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
-    if (pixels)
-        delete[] pixels;
+    delete[] pixels;
     SDL_GL_DeleteContext(glContext);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -109,7 +108,7 @@ void    GUI::events(std::atomic<bool> &isRunning, std::atomic<bool> &imageLoaded
     }
 }
 
-void LoadTextureFromArray(uint32_t *pixels, GLuint* out_texture)
+void LoadTextureFromArray(Uint32 *pixels, GLuint* out_texture)
 {
     // Create a OpenGL texture identifier
     GLuint image_texture;
@@ -121,8 +120,9 @@ void LoadTextureFromArray(uint32_t *pixels, GLuint* out_texture)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     // Upload pixels into texture
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 500, 500, 0, GL_RGBA , GL_UNSIGNED_INT_24_8, pixels);
+    // glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);s
+    glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 500, 500, 0, GL_RGBA , GL_UNSIGNED_BYTE, pixels);
     *out_texture = image_texture;
 }
 
@@ -188,8 +188,6 @@ void	GUI::update(std::mutex &recv_mutex)
             std::lock_guard<std::mutex> lock(recv_mutex);
             memcpy(this->pixels, this->shared_pixels, sizeof(Uint32) * 500 * 500);
         }
-        // for (int i = 0; i < 500 * 500 * 4; i++)
-        //     std::cout << this->pixels[i] << " "; 
         LoadTextureFromArray(this->pixels, &this->my_image_texture);
         this->dataRecieved = false;
         // {
@@ -239,8 +237,6 @@ void	GUI::render()
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	SDL_GL_SwapWindow(window);
-
-    
 }
 
 SDL_Window *GUI::getWindow() { return (this->window); }

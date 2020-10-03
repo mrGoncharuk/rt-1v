@@ -1,0 +1,49 @@
+{
+	"objects": [{
+		"type": "plane",
+		"centre": [0, -4, 0],
+		"orient": [0, 1, 0],
+		"color": [90, 20, 73],
+		"reflection": 0,
+		"specular": 100
+	} ,{
+		"type": "plane",
+		"centre": [0, 0, 10],
+		"orient": [0, 0, 1],
+		"color": [255, 128, 64],
+		"reflection": 0,
+		"specular": 100
+	},	{
+		"type": "cone",
+		"centre": [-2, -4, 10],
+		"orient": [0, 1, 0],
+		"color": [0, 191, 255],
+		"angle": 30,
+		"reflection": -1,
+		"specular": 100
+	}, {
+		"type": "cylinder",
+		"centre": [-6, 0, 10],
+		"orient": [1, 0, 0],
+		"color": [199, 193, 187],
+		"radius": 1,
+		"reflection": 0,
+		"specular": 100
+	}, {
+		"type": "sphere",
+		"centre": [1, 1.3, 9.5],
+		"orient": [0.0, 0.0, 0.0],
+		"color": [255, 0, 0],
+		"specular": 500.0,
+		"reflection": 0.2,
+		"radius": 0.5
+	}],
+	"lights": [{
+		"type": "direct",
+		"direction": [-0.8, 0.2, -0.5],
+		"intensity": 0.5
+	},{
+		"type": "ambient",
+		"intensity": 0.2
+	}]
+}

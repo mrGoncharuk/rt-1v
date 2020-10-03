@@ -132,6 +132,7 @@ int     run_server()
         int byte_received = recv(client_socket, buf, 36, 0);
         if (byte_received == 36)
         {
+            
             rt_thread_tracer(&rt);
             // int bytes_sent = send(client_socket, rt.pixels, 500*500*sizeof(Uint32), 0);
             send_image(client_socket, rt.pixels, 500*500*sizeof(Uint32));
@@ -175,7 +176,7 @@ void	ft_runserver(const char *fname)
 
 	if (!rt_parse_file(&rt, fname) || !load_textures(&rt))
 		return ;
-	check_light(&rt.lights);	// chec light
+	check_light(&rt.lights);	// chec lighty
 	neg_obj(&rt.objs);			// check negative objects
 	// TODO: Malloc memory for pixels
 	// if ((rt.pixels = (Uint32 *)malloc(WIN_WIDTH * WIN_HEIGHT * sizeof(Uint32))) == NULL)

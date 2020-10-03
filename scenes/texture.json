@@ -1,0 +1,116 @@
+{
+	"objects":[{
+		"type": "plane",
+		"centre": [0, -3.5, 0],
+		"orient": [0, 1, 0],
+		"color": [9, 222, 73],
+		"reflection": 0.8,
+		"texture": 7,
+		"specular": 100
+	}
+	,{
+		"type": "sphere",
+		"centre": [-11, 1, 35],
+		"orient": [0, 0, 1],
+		"color": [25, 128, 255],
+		"reflection": 0,
+		"texture": 9,
+		"radius": 3,
+		"specular": 100
+	},
+	{
+		"type": "sphere",
+		"centre": [-3.5, 1, 35],
+		"orient": [0, 0, 1],
+		"color": [25, 128, 255],
+		"reflection": 0,
+		"texture": 10,
+		"radius": 3,
+		"specular": 100
+	},
+	{
+		"type": "sphere",
+		"centre": [4, 1, 35],
+		"orient": [0, 0, 1],
+		"color": [25, 128, 255],
+		"reflection": 0,
+		"texture": 12,
+		"radius": 3,
+		"specular": 100
+	},
+	{
+		"type": "sphere",
+		"centre": [11, 1, 35],
+		"orient": [0, 0, 1],
+		"color": [25, 128, 255],
+		"reflection": 0,
+		"texture": 11,
+		"radius": 3,
+		"specular": 100
+	}
+	
+
+	,
+	{
+		"type": "sphere",
+		"centre": [-11, 10, 41],
+		"orient": [0, 0, 1],
+		"color": [25, 128, 255],
+		"reflection": 0,
+		"texture": -1,
+		"radius": 3,
+		"specular": 100
+	},
+	{
+		"type": "sphere",
+		"centre": [-3.5, 10, 41],
+		"orient": [0, 0, 1],
+		"color": [25, 128, 255],
+		"reflection": 0,
+		"texture": 5,
+		"radius": 3,
+		"specular": 100
+	},
+	{
+		"type": "sphere",
+		"centre": [4, 10, 41],
+		"orient": [0, 0, 1],
+		"color": [25, 128, 255],
+		"reflection": 0,
+		"texture": 4,
+		"radius": 3,
+		"specular": 100
+	},
+	{
+		"type": "sphere",
+		"centre": [11, 10, 41],
+		"orient": [0, 0, 1],
+		"color": [25, 128, 255],
+		"reflection": 0,
+		"texture": 8,
+		"radius": 3,
+		"specular": 100
+	}
+],
+	"lights": [{
+		"type": "ambient",
+		"intensity": 0.3
+	}, {
+		"type": "point",
+		"position": [0, 2, 24],
+		"intensity": 0.3
+	}, {
+		"type": "point",
+		"position": [-2, -2, 3],
+		"intensity": 0.2
+	}, {
+		"type": "point",
+		"position": [5, 5, -5],
+		"intensity": 0.3
+	}
+],
+	"camera":{
+		"origin": [0, 0, 0],
+		"orient": [0, 0, 0] 
+	}
+}
