@@ -101,15 +101,14 @@ typedef struct			s_camera
 
 typedef struct			s_rt
 {
-	SDL_Surface			*texture[TEXTURES_COUNT];	// surfaces
-	t_objects			*objs;			// objects 
-	t_lights			*lights;		// light sources 
-	t_camera			camera;			// camera position
-	Uint32				*pixels;		// image
-
 	// thread_data
 	int					x_start;
 	int					x_end;
+	t_camera			camera;			// camera position
+	Uint32				*pixels;		// image
+	SDL_Surface			*texture[TEXTURES_COUNT];	// surfaces
+	t_lights			*lights;		// light sources 
+	t_objects			*objs;			// objects 
 }						t_rt;
 
 typedef struct			s_flags
@@ -132,6 +131,53 @@ typedef struct			s_flags
 	bool				cartoon;
 	bool				aliasing;
 }						t_flags;
+
+typedef struct				s_view_flags
+{
+	bool					state_changed;
+	bool					lmb_down;
+	bool					aliasing;
+}							t_view_flags;
+
+typedef struct				s_move_flags
+{
+	bool					forward;
+	bool					backward;
+	bool					right;
+	bool					left;
+}							t_move_flags;
+
+
+
+typedef struct				s_camera_rotation_flags
+{
+	bool					rot_x;
+	bool					rot_y;
+	bool					rot_x_min;
+	bool					rot_y_min;
+}							t_camera_rotation_flags;
+
+typedef struct				s_raytrace_data
+{
+	char					header[16];
+	unsigned int			size;
+	t_view_flags			view_flags;
+	int						effect_flags;
+	t_move_flags			move_flags;
+	t_camera_rotation_flags	cam_flags;
+}							t_raytrace_data;
+
+enum	e_effect_type
+{
+	EF_NONE,
+	EF_NORMAL,
+	EF_SEPIA,
+	EF_WHITE,
+	EF_GRAY,
+	EF_CARTOON,
+	EF_ALIASING
+};
+
 
 typedef struct			s_sdls
 {
@@ -266,6 +312,7 @@ t_channel				disruption_1(t_vec p, t_vec center);
 t_channel				disruption_2(t_vec p, t_vec center);
 t_channel				disruption_3(t_vec p, t_vec center);
 t_channel				disruption_4(t_vec p, t_vec center);
+void					visual_effects(t_rt *rt, t_raytrace_data *flags);
 void					cartoon(Uint32 *pixels, Uint32 *pixels_copy);
 void					gray_rad(Uint32 *pixels, Uint32 *pixels_copy);
 void					white_rad(Uint32 *pixels, Uint32 *pixels_copy);

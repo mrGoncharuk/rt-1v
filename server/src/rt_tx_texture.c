@@ -12,10 +12,8 @@
 
 #include "rt.h"
 
-static bool			load_texture(t_rt *rtv, char *text_path)
+static bool			load_texture(t_rt *rtv, char *text_path, int texture_numb)
 {
-	static	int			texture_numb;
-
 	rtv->texture[texture_numb] = SDL_LoadBMP(text_path);
 	if (rtv->texture[texture_numb] == NULL)
 	{
@@ -49,7 +47,7 @@ bool				load_textures(t_rt *rtv)
 		s = ft_strjoin(leaks, ".bmp");
 		if (leaks)
 			free(leaks);
-		if ((load_texture(rtv, s)) == false)
+		if ((load_texture(rtv, s, i)) == false)
 		{
 			if (s)
 				free(s);

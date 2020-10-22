@@ -12,67 +12,96 @@ static void glfw_error_callback(int error, const char* description)
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
 
-
-GUI::GUI(/* args */): clearColor(0.45f, 0.55f, 0.60f, 1.00f)
+std::vector<int> generateKeys()
 {
-    // Setup window
+    std::vector<int>    inputKeys{
+                        GLFW_KEY_W,
+                        GLFW_KEY_A,
+                        GLFW_KEY_S,
+                        GLFW_KEY_D,
+                        GLFW_KEY_RIGHT,
+                        GLFW_KEY_LEFT,
+                        GLFW_KEY_UP,
+                        GLFW_KEY_DOWN,
+                        GLFW_KEY_ESCAPE
+    };
+    return inputKeys;
+}
+
+GUI::GUI(/* args */): clearColor(0.45f, 0.55f, 0.60f, 1.00f), keyboardInput(generateKeys())
+{
+    memset(&(this->flags), 0, sizeof(flags));
+    pixels = new uint32_t[500*500];
+}
+
+bool    GUI::InitGraphics()
+{
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
-        return ;
+    {
+        std:cerr << "Error while glfwIinit()" << std::endl;
+        return false;
+    }
 
     // Decide GL+GLSL versions
-#ifdef __APPLE__
-    // GL 3.2 + GLSL 150
-    const char* glsl_version = "#version 150";
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
-#else
-    // GL 3.0 + GLSL 130
-    const char* glsl_version = "#version 130";
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
-#endif
+    #ifdef __APPLE__
+        // GL 3.2 + GLSL 150
+        const char* glsl_version = "#version 150";
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
+    #else
+        // GL 3.0 + GLSL 130
+        const char* glsl_version = "#version 130";
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+        //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+        //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
+    #endif
 
     // Create window with graphics context
-    this->window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
+    this->window = glfwCreateWindow(1280, 720, "RT-Online", NULL, NULL);
     if (this->window == NULL)
-        return ;
+    {
+        std::cerr << "Error while initializing glfw window" << std::endl;
+        glfwTerminate();
+        return false;
+    }
     glfwMakeContextCurrent(this->window);
     glfwSwapInterval(1); // Enable vsync
 
     // Initialize OpenGL loader
-#if defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)
-    bool err = gl3wInit() != 0;
-#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)
-    bool err = glewInit() != GLEW_OK;
-#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)
-    bool err = gladLoadGL() == 0;
-#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD2)
-    bool err = gladLoadGL(glfwGetProcAddress) == 0; // glad2 recommend using the windowing library loader instead of the (optionally) bundled one.
-#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLBINDING2)
-    bool err = false;
-    glbinding::Binding::initialize();
-#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLBINDING3)
-    bool err = false;
-    glbinding::initialize([](const char* name) { return (glbinding::ProcAddress)glfwGetProcAddress(name); });
-#else
-    bool err = false; // If you use IMGUI_IMPL_OPENGL_LOADER_CUSTOM, your loader is likely to requires some form of initialization.
-#endif
+    #if defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)
+        bool err = gl3wInit() != 0;
+    #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)
+        bool err = glewInit() != GLEW_OK;
+    #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)
+        bool err = gladLoadGL() == 0;
+    #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD2)
+        bool err = gladLoadGL(glfwGetProcAddress) == 0; // glad2 recommend using the windowing library loader instead of the (optionally) bundled one.
+    #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLBINDING2)
+        bool err = false;
+        glbinding::Binding::initialize();
+    #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLBINDING3)
+        bool err = false;
+        glbinding::initialize([](const char* name) { return (glbinding::ProcAddress)glfwGetProcAddress(name); });
+    #else
+        bool err = false; // If you use IMGUI_IMPL_OPENGL_LOADER_CUSTOM, your loader is likely to requires some form of initialization.
+    #endif
     if (err)
     {
-        fprintf(stderr, "Failed to initialize OpenGL loader!\n");
-        return ;
+        glfwTerminate();
+        glfwDestroyWindow(window);
+        std::cerr << "Failed to initialize OpenGL loader!" << std::endl;
+        return false;
     }
 
-// Setup Dear ImGui context
+    // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
@@ -83,8 +112,8 @@ GUI::GUI(/* args */): clearColor(0.45f, 0.55f, 0.60f, 1.00f)
     ImGui_ImplGlfw_InitForOpenGL(this->window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    memset(&(this->flags), 0, sizeof(flags));
-    pixels = new uint32_t[500*500];
+    keyboardInput.setupKeyInputs(this->window);
+    return true;
 }
 
 GUI::~GUI()
@@ -109,6 +138,28 @@ void    GUI::events(std::atomic<bool> &isRunning, std::atomic<bool> &imageLoaded
         this->dataRecieved = true;
         imageLoaded = false;
     }
+    if (keyboardInput.getIsKeyDown(GLFW_KEY_UP))
+    {
+        this->flags.cam_flags.rot_y = true;
+        std::cout << "KEKEKE 1" << std::endl;
+    }
+    else if (ImGui::IsKeyPressed(KEY_LEFT))
+        this->flags.cam_flags.rot_x_min = true;
+    else if (ImGui::IsKeyPressed(KEY_RIGHT))
+        this->flags.cam_flags.rot_x = true;
+    else if (ImGui::IsKeyPressed(KEY_DOWN))
+        this->flags.cam_flags.rot_y_min = true;
+    else if (keyboardInput.getIsKeyDown(GLFW_KEY_W))
+    {
+        this->flags.move_flags.forward = true;
+        std::cout << "KEKEKE 2" << std::endl;
+    }
+    else if (ImGui::IsKeyPressed(KEY_S))
+        this->flags.move_flags.backward = true;
+    else if (ImGui::IsKeyPressed(KEY_D))
+        this->flags.move_flags.right = true;
+    else if (ImGui::IsKeyPressed(KEY_A))
+        this->flags.move_flags.left = true;
 }
 
 void LoadTextureFromArray(uint32_t *pixels, GLuint* out_texture)
@@ -158,29 +209,6 @@ void	GUI::update(std::mutex &recv_mutex)
         ImGui::RadioButton("Cartoon effect", &(this->flags.effect_flags), EF_CARTOON);
         ImGui::Checkbox("Anti-Aliasing effect", &(this->flags.view_flags.aliasing));
 
-        ImGui::Text("Keys pressed:");
-        for (int i = 0; i < buttonActionAmount; i++)
-        if (ImGui::IsKeyPressed(buttons[i]))
-        {
-            ImGui::SameLine();
-            ImGui::Text("%d (0x%X)", buttons[i], buttons[i]);
-        }
-        if (ImGui::IsKeyPressed(KEY_UP))
-            this->flags.cam_flags.rot_y = true;
-        else if (ImGui::IsKeyPressed(KEY_LEFT))
-            this->flags.cam_flags.rot_x_min = true;
-        else if (ImGui::IsKeyPressed(KEY_RIGHT))
-            this->flags.cam_flags.rot_x = true;
-        else if (ImGui::IsKeyPressed(KEY_DOWN))
-            this->flags.cam_flags.rot_y_min = true;
-        else if (ImGui::IsKeyPressed(KEY_W))
-            this->flags.move_flags.forward = true;
-        else if (ImGui::IsKeyPressed(KEY_S))
-            this->flags.move_flags.backward = true;
-        else if (ImGui::IsKeyPressed(KEY_D))
-            this->flags.move_flags.right = true;
-        else if (ImGui::IsKeyPressed(KEY_A))
-            this->flags.move_flags.left = true;
         ImGui::End();
     }
 
@@ -193,19 +221,6 @@ void	GUI::update(std::mutex &recv_mutex)
         }
         LoadTextureFromArray(this->pixels, &this->my_image_texture);
         this->dataRecieved = false;
-        // {
-        //     std::ofstream myfile ("example.txt");
-        //     if (myfile.is_open())
-        //     {
-        //         for(int count = 0; count < 500*500; count ++)
-        //         {
-        //             myfile << this->pixels[count] << " " ;
-        //         }
-        //         myfile.close();
-        //     }
-        //     else cout << "Unable to open file";
-        //     // return 0;
-        // }
     }
 
     {
@@ -215,8 +230,6 @@ void	GUI::update(std::mutex &recv_mutex)
         ImGui::Image((void*)(intptr_t)this->my_image_texture, ImVec2(500, 500));
         ImGui::End();
     }
-    // ImGui::NewFrame();
-    // ImGui::CheckboxFlags("Sepia", &flags, 0);
 }
 
 bool    GUI::stateChanged() const
@@ -224,6 +237,7 @@ bool    GUI::stateChanged() const
     // if current flags != cached flags
     if (!(memcmp(&(this->flags), &(this->cache_flags), sizeof(t_raytrace_data)) == 0))
     {
+        
         memcpy((void *)&(this->cache_flags), &(this->flags), sizeof(t_raytrace_data));
         return true;
     }

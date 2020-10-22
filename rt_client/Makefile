@@ -21,6 +21,7 @@ SRC_DIR = src/
 NAME = RT-Online
 SRC = 	main.cpp \
 		GUI.cpp \
+		Input.cpp \
 		client.cpp
 
 

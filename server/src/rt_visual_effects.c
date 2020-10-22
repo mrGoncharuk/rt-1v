@@ -72,9 +72,9 @@ void	cartoon(Uint32 *pixels, Uint32 *pixels_copy)
 	i = -1;
 	while (CW * CH > (++i))
 	{
-		rez.r = (((pixels[i] >> 16) & 0xFF) / 20) * 20;
-		rez.g = (((pixels[i] >> 8) & 0xFF) / 20) * 20;
-		rez.b = (((pixels[i]) & 0xFF) / 20) * 20;
+		rez.r = (((pixels[i] >> 16) & 0xFF) / 50) * 50;
+		rez.g = (((pixels[i] >> 8) & 0xFF) / 50) * 50;
+		rez.b = (((pixels[i]) & 0xFF) / 50) * 50;
 		pixels_copy[i] = rt_channel_color_to_uint(rez);
 	}
 }

@@ -65,7 +65,8 @@ SRC_FILES =		cn_mainloop.c \
 				rt_visual_effects.c \
 				rt_shadows.c \
 				rt_update.c \
-				rt_server.c
+				rt_server.c \
+				handle_events.c
 				
 HEADERS = 		$(INC_DIR)canvas.h \
 				$(INC_DIR)error_handler.h \
@@ -78,7 +79,8 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 
 
 CC = clang -g
-CFLAGS = -Wall -Werror -Wextra -flto -Ofast -pipe
+CFLAGS = -Wall -Werror -Wextra
+#  -flto -Ofast -pipe
 INC = 	-I $(INC_DIR) \
 		-I libft \
 		-I libparson \

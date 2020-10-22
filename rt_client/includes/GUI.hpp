@@ -46,7 +46,7 @@ using namespace gl;
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
-
+#include "Input.hpp"
 
 #define PIXEL_BUFSIZE 500 * 500 * sizeof(uint32_t)
 # define IMG_W 500
@@ -125,6 +125,7 @@ private:
 	const uint32_t			*shared_pixels;
 	uint32_t			*pixels;
 	GLuint 				my_image_texture;
+	KeyInput			keyboardInput;
 
 public:
 	GUI();
@@ -133,7 +134,7 @@ public:
 	GUI &operator =(GUI const &);
 
 	GLFWwindow		*getWindow();
-
+	bool    		InitGraphics();
 	void			mainloop();
 	void			events(std::atomic<bool>&, std::atomic<bool>&);
 	void			update(std::mutex &recv_mutex);
@@ -141,6 +142,7 @@ public:
 	bool			stateChanged() const;
 	t_raytrace_data	getFlags() const;
 	void			setPixels(uint32_t *pxls);
+
 	
 };
 

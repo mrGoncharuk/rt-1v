@@ -27,6 +27,8 @@ int		main(int argc, char **argv)
 	uint32_t			shared_pixels[500*500];
 	GUI gui;
 	
+	if (gui.InitGraphics() == false)
+		return 1;
 	isRunning = true;
 	imageLoaded = false;
 	gui.setPixels(shared_pixels);

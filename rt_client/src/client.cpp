@@ -36,7 +36,7 @@ int     recv_image(int recv_sock, unsigned char *pixels, uint32_t size)
             if (!((temp_buf + iByteCount) <= end_buf))
                 break;
 
-            printf("Bytes received: %d\n",iByteCount);
+            // printf("Bytes received: %d\n",iByteCount);
             memcpy(temp_buf, buffer, iByteCount);
             temp_buf += iByteCount;
         }
@@ -53,7 +53,7 @@ int     recv_image(int recv_sock, unsigned char *pixels, uint32_t size)
             break;
         }
     } while(iByteCount > 0 && temp_buf < end_buf);  //check for end of buffer
-    printf("%d\n", sum);
+    printf("Total bytes recieved: %d\n", sum);
     memcpy(pixels, buf, PIXEL_BUFSIZE);
     
     // {
@@ -105,7 +105,7 @@ void     run_client(const char *ipAddress,
     if (connResult == -1)
     {
         std::cerr << "Can't connect to server, ERRNO #" << errno << std::endl;
-        close(sock);
+        shutdown(sock, 0);
         isRunning = false;
         return ;
     }
@@ -160,6 +160,6 @@ void     run_client(const char *ipAddress,
         }
     }
     
-    close(sock);
+    shutdown(sock, 0);
     return ;
 }

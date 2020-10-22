@@ -27,28 +27,28 @@ void	leaks_free(t_rt *rt)
 	rt_clean(rt);
 }
 
-void	visual_effects(t_sdls *app)
-{
-	if (app->flags.sepia == true)
-		sepia_image(app->canvas.pixels, app->canvas.pixels_copy);
-	if (app->flags.white == true)
-		white_rad(app->canvas.pixels, app->canvas.pixels_copy);
-	if (app->flags.gray == true)
-		gray_rad(app->canvas.pixels, app->canvas.pixels_copy);
-	if (app->flags.cartoon == true)
-		cartoon(app->canvas.pixels, app->canvas.pixels_copy);
-	if (app->flags.aliasing == true)
-		anti_aliasing(app->canvas.pixels_copy, 1);
-	if (app->flags.clear == true)
-	{
-		app->flags.sepia = false;
-		app->flags.white = false;
-		app->flags.gray = false;
-		app->flags.cartoon = false;
-		app->flags.aliasing = false;
-		app->flags.clear = false;
-	}
-}
+// void	visual_effects(t_rt *rt, t_flags flags)
+// {
+// 	if (app->flags.sepia == true)
+// 		sepia_image(app->canvas.pixels, app->canvas.pixels_copy);
+// 	if (app->flags.white == true)
+// 		white_rad(app->canvas.pixels, app->canvas.pixels_copy);
+// 	if (app->flags.gray == true)
+// 		gray_rad(app->canvas.pixels, app->canvas.pixels_copy);
+// 	if (app->flags.cartoon == true)
+// 		cartoon(app->canvas.pixels, app->canvas.pixels_copy);
+// 	if (app->flags.aliasing == true)
+// 		anti_aliasing(app->canvas.pixels_copy, 1);
+// 	if (app->flags.clear == true)
+// 	{
+// 		app->flags.sepia = false;
+// 		app->flags.white = false;
+// 		app->flags.gray = false;
+// 		app->flags.cartoon = false;
+// 		app->flags.aliasing = false;
+// 		app->flags.clear = false;
+// 	}
+// }
 
 void	ft_mainloop(t_sdls *app)
 {
@@ -71,7 +71,7 @@ void	ft_mainloop(t_sdls *app)
 		}
 		ft_memcpy(app->canvas.pixels_copy,
 			app->canvas.pixels, CW * CH * sizeof(Uint32));
-		visual_effects(app);
+		// visual_effects(app);
 		ft_render(app);
 		// TODO: Move to key handler
 		// if (app->event.key.keysym.sym == SDLK_m)
